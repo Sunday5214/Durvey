@@ -125,6 +125,8 @@ namespace DurveyServer.Controllers
         [HttpPost]
         public resultModel<Default> Write([FromBody]Survey survey)
         {
+            SurveyModel surveyModel = new SurveyModel();
+            (int? Data, HttpStatusCode Status) writeResult = surveyModel.WriteSurvey(survey);
 
         }
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace DurveyServer
 {
@@ -129,11 +130,15 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"insert into users (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{survey.CreateDatetime}')";
+                string sql = $"insert into users (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{survey.CreateDatetime}', '{survey.StartDatetime}', '{survey.EndDatetime}')";
+                using(var db = new MySqlHelper())
+                {
+                    return (db.Execute(sql, this), HttpStatusCode.OK);
+                }
             }
             catch
             {
-
+                return (null, HttpStatusCode.InternalServerError);
             }
         }
     }
