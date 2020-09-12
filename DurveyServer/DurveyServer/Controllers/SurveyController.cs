@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using DurveyServer.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.Extensions.Logging;
 
 namespace DurveyServer.Controllers
@@ -127,7 +128,50 @@ namespace DurveyServer.Controllers
         {
             SurveyModel surveyModel = new SurveyModel();
             (int? Data, HttpStatusCode Status) writeResult = surveyModel.WriteSurvey(survey);
+            if(writeResult.Data == null)
+            {
+                return new resultModel<Default>()
+                {
+                    Data = null,
+                    Message = "서버 오류",
+                    Status = writeResult.Status
+                };
+            }
+            else
+            {
+                return new resultModel<Default>()
+                {
+                    Data = null,
+                    Message = "성공적으로 생성되었습니다.",
+                    Status = writeResult.Status
+                };
+            }
+        }
 
+        [Route("question/[action]")]
+        [HttpPost]
+        public resultModel<Default> Add([FromBody] Question question)
+        {
+            SurveyModel surveyModel = new SurveyModel();
+            (int? Data, HttpStatusCode Status) addResult = surveyModel.AddQuestion(question);
+            if (addResult.Data == null)
+            {
+                return new resultModel<Default>()
+                {
+                    Data = null,
+                    Message = "서버 오류",
+                    Status = addResult.Status
+                };
+            }
+            else
+            {
+                return new resultModel<Default>()
+                {
+                    Data = null,
+                    Message = "성공적으로 추가되었습니다.",
+                    Status = addResult.Status
+                };
+            }
         }
     }
 }

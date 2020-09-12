@@ -130,7 +130,23 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"insert into users (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{survey.CreateDatetime}', '{survey.StartDatetime}', '{survey.EndDatetime}')";
+                string sql = $"insert into surveys (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{survey.CreateDatetime}', '{survey.StartDatetime}', '{survey.EndDatetime}')";
+                using(var db = new MySqlHelper())
+                {
+                    return (db.Execute(sql, this), HttpStatusCode.OK);
+                }
+            }
+            catch
+            {
+                return (null, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        internal (int?, HttpStatusCode) AddQuestion(Question question)
+        {
+            try
+            {
+                string sql = $"insert into questions (questionContent, surveyIdx, questionType, isNecessary) value ('{question.QuestionContent}', '{question.SurveyIdx}', '{question.QuestionType}', '{question.IsNecessary}')";
                 using(var db = new MySqlHelper())
                 {
                     return (db.Execute(sql, this), HttpStatusCode.OK);
