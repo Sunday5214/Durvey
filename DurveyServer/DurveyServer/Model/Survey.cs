@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace DurveyServer.Model
@@ -16,5 +17,6 @@ namespace DurveyServer.Model
         public DateTime EndDatetime { get; set; }
         public bool IsAnonymous { get; set; }
 
+        
     }
 }

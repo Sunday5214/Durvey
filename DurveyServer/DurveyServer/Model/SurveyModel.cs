@@ -42,7 +42,7 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"select * from choices where quetionIdx ='{questionIdx}'";
+                string sql = $"select * from choices where questionIdx ='{questionIdx}'";
 
                 List<Choice> choices;
                 using(var db = new MySqlHelper())
@@ -93,6 +93,7 @@ namespace DurveyServer
             }
         }
 
+
         internal (int?, HttpStatusCode) SubmitSurvey(List<SurveyResult> surveyResults)
         {
             try
@@ -130,7 +131,10 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"insert into surveys (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{survey.CreateDatetime}', '{survey.StartDatetime}', '{survey.EndDatetime}')";
+                string sql = $"insert into surveys (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) " +
+                    $"value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
+                    $"'{MysqlFormatHelper.ConvertDatetime(survey.StartDatetime)}', " +
+                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}', '{MysqlFormatHelper.ConvertBoolean(survey.IsAnonymous)}')";
                 using(var db = new MySqlHelper())
                 {
                     return (db.Execute(sql, this), HttpStatusCode.OK);
