@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DurveyServer.Model
+namespace DurveyServer.Entities
 {
-    public class Choice
+    public class ChoiceEntity
     {
         public int Idx { get; set; }
         public string Content { get; set; }

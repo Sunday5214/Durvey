@@ -1,5 +1,5 @@
 using DurveyServer.Helper;
-using DurveyServer.Model;
+using DurveyServer.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,16 +11,16 @@ namespace DurveyServer
     public class SurveyModel
     {
         
-        internal (List<Survey>, HttpStatusCode) GetSurveys()
+        internal (List<SurveyEntity>, HttpStatusCode) GetSurveys()
         {
             try
             {
                 string sql = $"select * from surveys";
 
-                List<Survey> surveys;
+                List<SurveyEntity> surveys;
                 using (var db = new MySqlHelper())
                 {
-                    surveys = db.Query<Survey>(sql, this);
+                    surveys = db.Query<SurveyEntity>(sql, this);
 
                 }
 
@@ -38,16 +38,16 @@ namespace DurveyServer
             }
         }
 
-        private List<Choice> GetChoices(int questionIdx)
+        private List<ChoiceEntity> GetChoices(int questionIdx)
         {
             try
             {
                 string sql = $"select * from choices where questionIdx ='{questionIdx}'";
 
-                List<Choice> choices;
+                List<ChoiceEntity> choices;
                 using(var db = new MySqlHelper())
                 {
-                    choices = db.Query<Choice>(sql, this);
+                    choices = db.Query<ChoiceEntity>(sql, this);
                 }
 
                 if(choices == null)
@@ -63,19 +63,19 @@ namespace DurveyServer
             }
         }
 
-        internal (List<Question>, HttpStatusCode) GetQuestions(int surveyIdx)
+        internal (List<QuestionEntity>, HttpStatusCode) GetQuestions(int surveyIdx)
         {
             try
             {
                 string sql = $"select * from questions where surveyIdx = '{surveyIdx}'";
 
-                List<Question> questions;
+                List<QuestionEntity> questions;
                 using(var db = new MySqlHelper())
                 {
-                    questions = db.Query<Question>(sql, this);
+                    questions = db.Query<QuestionEntity>(sql, this);
                 }
 
-                foreach(Question question in questions)
+                foreach(QuestionEntity question in questions)
                 {
                     question.Choices = GetChoices(question.Idx);
                 }
@@ -94,7 +94,7 @@ namespace DurveyServer
         }
 
 
-        internal (int?, HttpStatusCode) SubmitSurvey(List<SurveyResult> surveyResults)
+        internal (int?, HttpStatusCode) SubmitSurvey(List<SurveyResultEntity> surveyResults)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace DurveyServer
             }
         }
         
-        internal (int?, HttpStatusCode) WriteSurvey(Survey survey)
+        internal (int?, HttpStatusCode) WriteSurvey(SurveyEntity survey)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace DurveyServer
             }
         }
 
-        internal (int?, HttpStatusCode) AddQuestion(Question question)
+        internal (int?, HttpStatusCode) AddQuestion(QuestionEntity question)
         {
             try
             {

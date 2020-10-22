@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DurveyServer.Model
+namespace DurveyServer.Entities
 {
-    public class resultModel<T>
+    public class ResponseEntity<T>
     {
         public HttpStatusCode Status { get; set; }
         public string Message { get; set; }

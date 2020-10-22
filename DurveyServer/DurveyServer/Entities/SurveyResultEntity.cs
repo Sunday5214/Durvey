@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DurveyServer.Model
+namespace DurveyServer.Entities
 {
-    public class SurveyResult
+    public class SurveyResultEntity
     {
         public int Idx { get; set; }
         public int SurveyIdx { get; set; }

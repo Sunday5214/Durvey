@@ -5,7 +5,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DurveyServer.Model;
+using DurveyServer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.Extensions.Logging;
@@ -16,7 +16,7 @@ namespace DurveyServer.Controllers
     [Route("api/[controller]")]
     public class SurveyController : ControllerBase
     {
-
+        SurveyModel surveyModel = new SurveyModel();
         private readonly ILogger<SurveyController> _logger;
 
         public SurveyController(ILogger<SurveyController> logger)
@@ -26,14 +26,13 @@ namespace DurveyServer.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public resultModel<List<Survey>> Surveys()
+        public ResponseEntity<List<SurveyEntity>> Surveys()
         {
-            SurveyModel surveyModel = new SurveyModel();
-            (List<Survey> Data, HttpStatusCode Status) surveyList = surveyModel.GetSurveys();
+            (List<SurveyEntity> Data, HttpStatusCode Status) surveyList = surveyModel.GetSurveys();
 
             if(surveyList.Data != null)
             {
-                return new resultModel<List<Survey>>()
+                return new ResponseEntity<List<SurveyEntity>>()
                 {
                     Data = surveyList.Data,
                     Message = "성공적으로 조회되었습니다",
@@ -42,7 +41,7 @@ namespace DurveyServer.Controllers
             }
             else if (surveyList.Status == HttpStatusCode.InternalServerError)
             {
-                return new resultModel<List<Survey>>()
+                return new ResponseEntity<List<SurveyEntity>>()
                 {
                     Data = null,
                     Message = "서버 에러",
@@ -51,7 +50,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<List<Survey>>()
+                return new ResponseEntity<List<SurveyEntity>>()
                 {
                     Data = null,
                     Message = "없는 리소스입니다.",
@@ -63,14 +62,14 @@ namespace DurveyServer.Controllers
 
         [HttpGet]
         [Route("question/[action]")]
-        public resultModel<List<Question>> Questions(int surveyIdx)
+        public ResponseEntity<List<QuestionEntity>> Questions(int surveyIdx)
         {
-            SurveyModel surveyModel = new SurveyModel();
-            (List<Question> Data, HttpStatusCode Status) questionList = surveyModel.GetQuestions(surveyIdx);
+           
+            (List<QuestionEntity> Data, HttpStatusCode Status) questionList = surveyModel.GetQuestions(surveyIdx);
 
             if(questionList.Data != null)
             {
-                return new resultModel<List<Question>>()
+                return new ResponseEntity<List<QuestionEntity>>()
                 {
                     Data = questionList.Data,
                     Message = "성공적으로 조회되었습니다.",
@@ -79,7 +78,7 @@ namespace DurveyServer.Controllers
             }
             else if(questionList.Status == HttpStatusCode.InternalServerError)
             {
-                return new resultModel<List<Question>>()
+                return new ResponseEntity<List<QuestionEntity>>()
                 {
                     Data = null,
                     Message = "서버 에러",
@@ -88,7 +87,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<List<Question>>()
+                return new ResponseEntity<List<QuestionEntity>>()
                 {
                     Data = null,
                     Message = "없는 리소스입니다.",
@@ -99,13 +98,12 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public resultModel<Default> Submit([FromBody] List<SurveyResult> surveyResults)
+        public ResponseEntity<Default> Submit([FromBody] List<SurveyResultEntity> surveyResults)
         {
-            SurveyModel surveyModel = new SurveyModel();
             (int? Data, HttpStatusCode Status) submitResult = surveyModel.SubmitSurvey(surveyResults);
             if(submitResult.Data == null)
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "서버 오류",
@@ -114,7 +112,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "성공적으로 제출되었습니다.",
@@ -125,13 +123,12 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public resultModel<Default> Write([FromBody]Survey survey)
+        public ResponseEntity<Default> Write([FromBody]SurveyEntity survey)
         {
-            SurveyModel surveyModel = new SurveyModel();
             (int? Data, HttpStatusCode Status) writeResult = surveyModel.WriteSurvey(survey);
             if(writeResult.Data == null)
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "서버 오류",
@@ -140,7 +137,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "성공적으로 생성되었습니다.",
@@ -151,13 +148,12 @@ namespace DurveyServer.Controllers
 
         [Route("question/[action]")]
         [HttpPost]
-        public resultModel<Default> Add([FromBody] Question question)
+        public ResponseEntity<Default> Add([FromBody] QuestionEntity question)
         {
-            SurveyModel surveyModel = new SurveyModel();
             (int? Data, HttpStatusCode Status) addResult = surveyModel.AddQuestion(question);
             if (addResult.Data == null)
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "서버 오류",
@@ -166,7 +162,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "성공적으로 추가되었습니다.",

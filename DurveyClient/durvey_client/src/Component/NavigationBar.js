@@ -1,20 +1,24 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import { BiLogInCircle } from 'react-icons/bi';
+import { usePageDispatch } from '../Contexts/PageContext';
 
 const StyledNavigationBar = styled.div`
     height: 100%;
     width: 100%;
-    background-color: white;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
     z-index: 5;
     display: flex;
 `;
 
+
+
 const StyledNavigationWrap = styled.div`
     display: flex;
     flex-direction: row;
-    box-shadow: 0 2px 1px 0 hsla(0,0%,80%,.8);
+    box-shadow: 0px 3px 6px #00000029;
     width: 100%;
 `
 const StyledNavigationLogin = styled.div`
@@ -85,6 +89,7 @@ const StyledSubtitle = styled.div`
 `;
 
 const StyledTitle = styled.div`
+    cursor: pointer;
     height: 100%;
     width: 60%;
     font-size: 25px;
@@ -126,6 +131,7 @@ const StyledLoginButton = styled.button`
     border-color: #0088FF;
     border-width: 1.5px;
     margin-right: 20px;
+    cursor: pointer;
     &:hover{
         background: #0088FF;
         ${StyledLoginIcon}{
@@ -137,24 +143,31 @@ const StyledLoginButton = styled.button`
     }
 `;
 
-function NavigationItem({ children, ...rest }) {
-    return <StyledNavigationItem {...rest}>{children}</StyledNavigationItem>;
+const NavigationItem = ({ link, children }) => {
+    const dispatch = usePageDispatch();
+    const onChange = () => dispatch({ type: 'CHANGE', link});
+
+    return (
+        <StyledNavigationItem onClick={onChange}>{children}</StyledNavigationItem>
+    )
 }
 
-function Navigation() {
+const Navigation = () => {
+    const dispatch = usePageDispatch();
+    const onChange = () => dispatch({ type: 'CHANGE', link: '/home'});
     return (
         <StyledNavigationBar>
             <StyledNavigationWrap>
                 <StyledNaviHeader>
-                    <StyledTitle>Durvey</StyledTitle>
+                    <StyledTitle onClick={onChange}>Durvey</StyledTitle>
                     <StyledSubtitle>180을 1로 만드는 서비스</StyledSubtitle>
                 </StyledNaviHeader>
                 <StyledNavigationListWrap>
                     <StyledNavigation>
-                        <NavigationItem>등록</NavigationItem>
-                        <NavigationItem>설문조사</NavigationItem>
-                        <NavigationItem>투표</NavigationItem>
-                        <NavigationItem>실시간 투표</NavigationItem>
+                        <NavigationItem link='/make/survey'>등록</NavigationItem>
+                        <NavigationItem link='/make/survey'>설문조사</NavigationItem>
+                        <NavigationItem link='/make/survey'>실시간 투표</NavigationItem>
+                        <NavigationItem link='/make/survey'>설문결과</NavigationItem>
                     </StyledNavigation>
                 </StyledNavigationListWrap>
                 <StyledNavigationLogin>

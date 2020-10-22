@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DurveyServer.Entities;
 using DurveyServer.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,15 @@ namespace DurveyServer.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        UserModel userModel = new UserModel();
         [HttpGet]
-        public resultModel<List<UserModel>> Users()
+        public ResponseEntity<List<UserModel>> Users()
         {
-            UserModel userModel = new UserModel();
+            
             (List<UserModel> Data, HttpStatusCode Status) userList = userModel.GetUsers();
             if (userList.Data != null)
             {
-                return new resultModel<List<UserModel>>()
+                return new ResponseEntity<List<UserModel>>()
                 {
                     Data = userList.Data,
                     Message = "성공적으로 조회되었습니다",
@@ -29,7 +31,7 @@ namespace DurveyServer.Controllers
             }
             else if (userList.Status == HttpStatusCode.InternalServerError)
             {
-                return new resultModel<List<UserModel>>()
+                return new ResponseEntity<List<UserModel>>()
                 {
                     Data = null,
                     Message = "서버 에러",
@@ -38,7 +40,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<List<UserModel>>()
+                return new ResponseEntity<List<UserModel>>()
                 {
                     Data = null,
                     Message = "없는 리소스입니다.",
@@ -51,13 +53,12 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpGet]
-        public resultModel<UserModel> Login(string userEmail)
+        public ResponseEntity<UserModel> Login(string userEmail)
         {
-            UserModel user = new UserModel();
-            (UserModel Data, HttpStatusCode Status) loginedUser = user.Login(userEmail);
+            (UserModel Data, HttpStatusCode Status) loginedUser = userModel.Login(userEmail);
             if (loginedUser.Status == HttpStatusCode.OK)
             {
-                return new resultModel<UserModel>()
+                return new ResponseEntity<UserModel>()
                 {
                     Data = loginedUser.Data,
                     Message = "로그인 성공",
@@ -66,7 +67,7 @@ namespace DurveyServer.Controllers
             }
             else if(loginedUser.Status == HttpStatusCode.InternalServerError)
             {
-                return new resultModel<UserModel>()
+                return new ResponseEntity<UserModel>()
                 {
                     Data = null,
                     Message = "서버 에러",
@@ -75,7 +76,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<UserModel>()
+                return new ResponseEntity<UserModel>()
                 {
                     Data = null,
                     Message = "없는 리소스입니다.",
@@ -87,12 +88,12 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public resultModel<Default> Register([FromBody]UserModel user)
+        public ResponseEntity<Default> Register([FromBody]UserModel user)
         {
             (int? Data, HttpStatusCode Status) registerUser = user.Register(user.Name, user.Email);
             if(registerUser.Data == null)
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "서버 오류",
@@ -101,7 +102,7 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new resultModel<Default>()
+                return new ResponseEntity<Default>()
                 {
                     Data = null,
                     Message = "성공적으로 가입되었습니다.",

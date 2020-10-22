@@ -2,28 +2,34 @@ import React from 'react';
 import Navigation from './Component/NavigationBar.js';
 import NavigatePage from './Pages/NavigatePage.js';
 import './App.scss';
+import { PageProvider } from './Contexts/PageContext.js';
 
-function App() {
+const App = () => {
   return (
-    <html>
-      <head>
+    <PageProvider>
+      <html>
+        <head>
 
-      </head>
-      <body>
-        <div className="container">
-          <div className="topBox">
-            <Navigation/>
-          </div>
-          <div className="middleBox">
-            <NavigatePage page='/make/survey'/>
-          </div>
-          <div className="bottomBox">
+        </head>
+        <body>
+          <div className="container">
+            <div className="topBox">
+              <Navigation />
+            </div>
+            <div className="middleBox">
+              <NavigatePage />
 
-          </div>
-        </div>
 
-      </body>
-    </html>
+            </div>
+            <div className="bottomBox">
+
+            </div>
+          </div>
+
+        </body>
+      </html>
+
+    </PageProvider>
 
   );
 }

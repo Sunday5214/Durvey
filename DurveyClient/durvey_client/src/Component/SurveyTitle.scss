@@ -1,0 +1,18 @@
+.SurveyTitleStyle{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid;
+    border-bottom-color: #0088FF;
+    border-bottom-width: 1px;
+    width: 90%;
+    height: 50px;
+    margin-top: 20px;
+    font-size: 40px;
+    font-family: 'Segoe UI';
+    resize: none;
+}
+
+:focus{
+    border-bottom-width: 2px;
+}

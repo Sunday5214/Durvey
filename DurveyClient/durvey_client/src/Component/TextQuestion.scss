@@ -1,0 +1,23 @@
+.InputBox{
+    font-size: 15px;
+    width: 95%;
+    height: auto;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: 나눔스퀘어_ac;
+    display: flex;
+    background-color: white;
+    border-color: rgba(112, 112, 112, .4);
+    border-style: solid;
+    align-items: center;
+    align-self: center;
+    justify-self: flex-start;
+    word-wrap: break-word;
+    resize: none;
+}
+
+:focus{
+    border-color: rgba(112, 112, 112, 1);
+}
