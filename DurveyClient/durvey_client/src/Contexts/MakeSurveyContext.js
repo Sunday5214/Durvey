@@ -2,7 +2,7 @@ import React, { useReducer, useRef, createContext, useContext } from 'react';
 
 const initQuestions = [
     {}
-]
+];
 
 const makeSurveyReducer = (state, action) => {
     switch(action.type){
@@ -36,7 +36,7 @@ export const MakeSurveyProvider = ({children}) => {
 export const useMakeSurveyState = () => {
     const context = useContext(MakeSurveyStateContext);
     if(!context){
-        throw new Error('Cannot find TodoProvider');
+        throw new Error('Cannot find Provider');
     }
     return context;
 }
@@ -44,7 +44,7 @@ export const useMakeSurveyState = () => {
 export const useMakeSurveyDispatch = () => {
     const context = useContext(MakeSurveyDispatchContext);
     if(!context){
-        throw new Error('Cannot find TodoProvider');
+        throw new Error('Cannot find Provider');
     }
     return context;
 }
@@ -52,7 +52,7 @@ export const useMakeSurveyDispatch = () => {
 export const useMakeSurveyNextId = () => {
     const context = useContext(MakeSurveyNextIdContext);
     if(!context){
-        throw new Error('Cannot find TodoProvider');
+        throw new Error('Cannot find Provider');
     }
     return context;
 }

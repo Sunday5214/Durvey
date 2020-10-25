@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace DurveyServer
 {
@@ -35,6 +36,20 @@ namespace DurveyServer
                 options.AddDefaultPolicy((policy) =>
                 {
                     policy.AllowAnyOrigin();
+                });
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("api", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Durvey APIs",
+                    Description = "대구소프트웨어고등학교 전용 설문조사 플랫폼 Durvey의 API문서",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "https://github.com/Sunday5214/Durvey/tree/master/DurveyServer",
+                        Email = "kteo@naver.com",
+                    }
                 });
             });
 
@@ -73,6 +88,12 @@ namespace DurveyServer
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/api/swagger.json", "Api Docments");
+            });
 
             app.UseEndpoints(endpoints =>
             {

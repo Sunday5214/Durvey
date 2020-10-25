@@ -1,29 +1,19 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
-import styled from 'styled-components';
-import BackgroundBlock from './BackgroundBlock';
+import { useTextQuestionSet } from '../Contexts/TextQuestionContext.js';
+import BackgroundBlock from './BackgroundBlock.js';
+import QuestionTitle from './QuestionTitle';
 import './TextQuestion.scss'
-
-const StyledTextTitle = styled.div`
-    font-size: 20px;
-    width: 100%;
-    height: 25%;
-    font-family: 나눔스퀘어_ac;
-    color: black;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 10px;
-    margin-left: 20px;
-`;
 
 
 
 const TextQuestion = () => {
+    const textDispatch = useTextQuestionSet();
+    const onFocusLost = e => textDispatch({type:'LOST_FOCUS', textContent: e.target.value});
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
-            <StyledTextTitle>주관식 질문</StyledTextTitle>
-            <TextareaAutosize className='InputBox' placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
+            <QuestionTitle>주관식 질문</QuestionTitle>
+            <TextareaAutosize className='InputBox' onBlur={onFocusLost} placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
         </BackgroundBlock>
     )
 }

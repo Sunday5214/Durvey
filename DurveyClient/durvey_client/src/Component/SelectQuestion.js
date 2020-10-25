@@ -4,18 +4,8 @@ import BackgroundBlock from './BackgroundBlock';
 import TextareaAutosize from "react-autosize-textarea"
 import './SelectQuestion.scss';
 import { MdAddCircleOutline, MdRemoveCircleOutline } from 'react-icons/md';
-
-const StyledSelectTitle = styled.div`
-    font-size: 20px;
-    width: 100%;
-    font-family: 나눔스퀘어_ac;
-    color: black;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 10px;
-    margin-left: 20px;
-`;
+import QuestionTitle from './QuestionTitle';
+import { useSelectQuestionDispatch, useSelectQuestionState, useSelectQuestionNextId } from '../Contexts/SelectQuestionContext';
 
 const StyledOptionAddBtn = styled.div`
     width: 40%;
@@ -28,8 +18,7 @@ const StyledOptionAddBtn = styled.div`
 `;
 
 const OptionInputDeleteBtn = styled.div`
-    width: 5%;
-    font-size: 30px;
+    font-size: 20px;
     margin-left: 5px;
     display: flex;
     align-items: center;
@@ -45,11 +34,16 @@ const OptionLayout = styled.div`
     margin-bottom: 5px;
 `;
 
-const OptionInputAdd = () => {
+const OptionInput = (optionValue, optionId) => {
+    const selectDispatch = useSelectQuestionDispatch();
+    const selectState = useSelectQuestionState();
+    const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', id: optionId })
+    const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', id: optionId, optionContent: e.target.value })
+    console.log(selectState);
     return (
         <OptionLayout>
-            <TextareaAutosize className='OptionInput' placeholder="보기를 작성해주세요"></TextareaAutosize>
-            <OptionInputDeleteBtn>
+            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput' value={optionValue} placeholder="보기를 작성해주세요"></TextareaAutosize>
+            <OptionInputDeleteBtn onClick={onDeleteOption}>
                 <MdRemoveCircleOutline />
             </OptionInputDeleteBtn>
         </OptionLayout>
@@ -57,14 +51,24 @@ const OptionInputAdd = () => {
 }
 
 const SelectQuestion = () => {
+    const selectDispatch = useSelectQuestionDispatch();
+    const selectState = useSelectQuestionState();
+    const nextId = useSelectQuestionNextId();
+    const onAddOption = () => {
+        selectDispatch({ type: 'CREATE_OPTIONS', option: '', id: nextId.current });
+        nextId.current += 1;
+    }
+    const onChangeContent = e => selectDispatch({ type: 'CHANGE_CONTENT', content: e.target.value });
+    console.log(selectState);
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
-            <StyledSelectTitle>객관식 질문</StyledSelectTitle>
-            <TextareaAutosize className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
-            <OptionInputAdd />
-            <OptionInputAdd />
-            <OptionInputAdd />
-            <StyledOptionAddBtn>
+            <QuestionTitle>객관식 질문</QuestionTitle>
+            <TextareaAutosize onBlur={onChangeContent} className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
+            {selectState.options.map(option =>
+                <OptionInput optionValue={option.content} optionId={option.id} />
+// TODO:오류나는 원인 찾기
+            )};
+            <StyledOptionAddBtn onClick={onAddOption}>
                 <MdAddCircleOutline />
             </StyledOptionAddBtn>
         </BackgroundBlock>

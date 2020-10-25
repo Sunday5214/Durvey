@@ -39,3 +39,7 @@ textarea::-webkit-input-placeholder {
   margin-top: 2px;
   margin-left: 2px;
 }
+
+textarea:focus{
+  border-color: #0088FF;
+}
