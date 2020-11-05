@@ -27,6 +27,10 @@ const DragNDropIcon = styled.div`
     margin-right: 10px;
     margin-top: 10px;
     opacity: 1;
+    cursor: pointer;
+    &:hover{
+        font-size: 25px;
+    }
 `;
 
 const QuestionTitle = ({children}) => {

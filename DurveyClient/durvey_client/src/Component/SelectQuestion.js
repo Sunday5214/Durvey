@@ -15,6 +15,10 @@ const StyledOptionAddBtn = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    &:hover{
+        font-size:35px;
+    }
 `;
 
 const OptionInputDeleteBtn = styled.div`
@@ -23,6 +27,10 @@ const OptionInputDeleteBtn = styled.div`
     display: flex;
     align-items: center;
     color: rgb(255, 0, 30);
+    cursor: pointer;
+    &:hover{
+        font-size:25px;
+    }
 `;
 
 const OptionLayout = styled.div`
