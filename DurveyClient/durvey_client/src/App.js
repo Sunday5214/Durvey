@@ -10,28 +10,27 @@ const App = () => {
   return (
     <PageProvider>
       <MakeSurveyProvider>
-        
-              <html>
-                <head>
 
-                </head>
-                <body>
-                  <div className="container">
-                    <div className="topBox">
-                      <Navigation />
-                    </div>
-                    <div className="middleBox">
-                      <NavigatePage />
+        <html>
+          <head>
 
+          </head>
+          <body>
+            <div className="container">
+              <div className="topBox">
+                <Navigation />
+              </div>
+              <div className="middleBox">
+                <NavigatePage />
 
-                    </div>
-                    <div className="bottomBox">
+              </div>
+              <div className="bottomBox">
 
-                    </div>
-                  </div>
+              </div>
+            </div>
 
-                </body>
-              </html>
+          </body>
+        </html>
 
 
 

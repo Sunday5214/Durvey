@@ -1,11 +1,11 @@
 import React, { useReducer, useRef, createContext, useContext } from 'react';
 
 const initSelectQuestion = {
-    content: '1',
+    content: '',
     options: [
         {
             id:0,
-            content:'25gb  11'
+            optionContent:''
         }
     ]
 };
@@ -20,11 +20,22 @@ const selectQuestionReducer = (state, action) => {
                 content: action.content
             };
         case 'CREATE_OPTIONS':
-            return state.options.concat({id: action.id, option: action.option});
+            return {
+                ...state,
+                options: state.options.concat({id: action.id, optionContent: action.option})
+            }
         case 'DELETE_OPTIONS':
-            return state.options.filter(option => option.id !== action.id);
+            return{
+                ...state,
+                options: state.options.filter(option => option.id !== action.id)
+            } 
+            
         case 'CHANGE_OPTIONS':
-            return state.options.map(option => option.id === action.id ? { ...option, content: action.content } : option);
+            return {
+                ...state,
+                options: state.options.map(option => option.id === action.id ? { ...option, optionContent: action.optionContent } : option)
+            } 
+           
         default:
             throw new Error('Unhandled action type');
     }

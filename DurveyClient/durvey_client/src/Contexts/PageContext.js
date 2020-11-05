@@ -1,6 +1,6 @@
 import React, { useReducer, createContext, useContext } from 'react';
 
-let page = "/home";
+let page = "/make/survey";
 const pageReducer = (state, action) => {
     switch (action.type) {
         case 'GET':

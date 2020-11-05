@@ -34,15 +34,13 @@ const OptionLayout = styled.div`
     margin-bottom: 5px;
 `;
 
-const OptionInput = (optionValue, optionId) => {
+const OptionInput = ({optionValue, optionId}, key) => {
     const selectDispatch = useSelectQuestionDispatch();
-    const selectState = useSelectQuestionState();
     const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', id: optionId })
     const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', id: optionId, optionContent: e.target.value })
-    console.log(selectState);
     return (
         <OptionLayout>
-            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput' value={optionValue} placeholder="보기를 작성해주세요"></TextareaAutosize>
+            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요">{optionValue}</TextareaAutosize>
             <OptionInputDeleteBtn onClick={onDeleteOption}>
                 <MdRemoveCircleOutline />
             </OptionInputDeleteBtn>
@@ -55,7 +53,7 @@ const SelectQuestion = () => {
     const selectState = useSelectQuestionState();
     const nextId = useSelectQuestionNextId();
     const onAddOption = () => {
-        selectDispatch({ type: 'CREATE_OPTIONS', option: '', id: nextId.current });
+        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', id: nextId.current });
         nextId.current += 1;
     }
     const onChangeContent = e => selectDispatch({ type: 'CHANGE_CONTENT', content: e.target.value });
@@ -64,10 +62,12 @@ const SelectQuestion = () => {
         <BackgroundBlock widthValue='90%' heightValue='auto'>
             <QuestionTitle>객관식 질문</QuestionTitle>
             <TextareaAutosize onBlur={onChangeContent} className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
-            {selectState.options.map(option =>
-                <OptionInput optionValue={option.content} optionId={option.id} />
-// TODO:오류나는 원인 찾기
-            )};
+            {selectState.options.map(
+                (option) =>
+                {
+                   return <OptionInput optionValue={option.optionContent} optionId={option.id} key={option.id} />
+                }
+            )}
             <StyledOptionAddBtn onClick={onAddOption}>
                 <MdAddCircleOutline />
             </StyledOptionAddBtn>

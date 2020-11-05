@@ -1,7 +1,18 @@
 import React, { useReducer, useRef, createContext, useContext } from 'react';
 
 const initQuestions = [
-    {}
+    {
+        id: 0,
+        questionType: 0,//0 객관식, 1 OX, 2 주관식
+        contentTitle:'',
+        options:
+        [
+            {
+                optionId: 0,
+                contentOption: ''
+            }
+        ]
+    }
 ];
 
 const makeSurveyReducer = (state, action) => {
