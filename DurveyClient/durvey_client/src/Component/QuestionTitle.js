@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { RiDragMoveLine } from 'react-icons/ri';
 
 const StyledTitle = styled.div`
     font-size: 20px;
@@ -40,11 +39,11 @@ const AddButton = styled.button`
     }
 `;
 
-const QuestionTitle = ({children}) => {
+const QuestionTitle = ({children, clickEvent}) => {
     return (
         <TitleLayout>
             <StyledTitle>{children}</StyledTitle>
-            <AddButton>
+            <AddButton onClick={clickEvent}>
                 설문에 추가
             </AddButton>
         </TitleLayout>

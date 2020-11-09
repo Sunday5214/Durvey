@@ -21,6 +21,7 @@ const SurveyRegisterPage = () => {
                         </BackgroundBlock>
                         <BackgroundBlock widthValue='45%' heightValue='500px'>
                             <SurveyTitle />
+                            
                         </BackgroundBlock>
                     </OXQuestionProvider>
                 </TextQuestionProvider>

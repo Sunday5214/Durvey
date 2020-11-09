@@ -6,6 +6,7 @@ import './SelectQuestion.scss';
 import { MdAddCircleOutline, MdRemoveCircleOutline } from 'react-icons/md';
 import QuestionTitle from './QuestionTitle';
 import { useSelectQuestionDispatch, useSelectQuestionState, useSelectQuestionNextId } from '../Contexts/SelectQuestionContext';
+import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
 
 const StyledOptionAddBtn = styled.div`
     width: 40%;
@@ -42,7 +43,7 @@ const OptionLayout = styled.div`
     margin-bottom: 5px;
 `;
 
-const OptionInput = ({optionValue, optionId}, key) => {
+const OptionInput = ({optionValue, optionId}) => {
     const selectDispatch = useSelectQuestionDispatch();
     const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', optionId: optionId })
     const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', optionId: optionId, optionContent: e.target.value })
@@ -59,15 +60,22 @@ const OptionInput = ({optionValue, optionId}, key) => {
 const SelectQuestion = () => {
     const selectDispatch = useSelectQuestionDispatch();
     const selectState = useSelectQuestionState();
-    const nextId = useSelectQuestionNextId();
+    const optionNextId = useSelectQuestionNextId();
+    const questionNextId = useMakeSurveyNextId();
+    const questionDispatch = useMakeSurveyDispatch();
     const onAddOption = () => {
-        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', optionId: nextId.current });
-        nextId.current += 1;
+        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', optionId: optionNextId.current });
+        optionNextId.current += 1;
     }
     const onChangeContent = e => selectDispatch({ type: 'CHANGE_CONTENT', content: e.target.value });
+    const onAddQuestion = () => {
+        questionDispatch({type: 'CREATE_SELECT_QUESTION', id: questionNextId.current, 
+        content: selectState.content, options: selectState.options});
+        questionNextId.current+=1;
+    }
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
-            <QuestionTitle>객관식 질문</QuestionTitle>
+            <QuestionTitle clickEvent={onAddQuestion}>객관식 질문</QuestionTitle>
             <TextareaAutosize onBlur={onChangeContent} className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
             {selectState.options.map(
                 (option) =>
