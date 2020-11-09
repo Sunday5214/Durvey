@@ -2,9 +2,10 @@ import React, { useReducer, useRef, createContext, useContext } from 'react';
 
 const initSelectQuestion = {
     content: '',
-    options: [
+    options: 
+    [
         {
-            id:0,
+            optionId:0,
             optionContent:''
         }
     ]
@@ -22,18 +23,18 @@ const selectQuestionReducer = (state, action) => {
         case 'CREATE_OPTIONS':
             return {
                 ...state,
-                options: state.options.concat({id: action.id, optionContent: action.option})
+                options: state.options.concat({optionId: action.optionId, optionContent: action.option})
             }
         case 'DELETE_OPTIONS':
             return{
                 ...state,
-                options: state.options.filter(option => option.id !== action.id)
+                options: state.options.filter(option => option.optionId !== action.optionId)
             } 
             
         case 'CHANGE_OPTIONS':
             return {
                 ...state,
-                options: state.options.map(option => option.id === action.id ? { ...option, optionContent: action.optionContent } : option)
+                options: state.options.map(option => option.optionId === action.optionId ? { ...option, optionContent: action.optionContent } : option)
             } 
            
         default:

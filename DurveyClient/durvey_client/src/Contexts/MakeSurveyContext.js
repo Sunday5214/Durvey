@@ -1,26 +1,84 @@
 import React, { useReducer, useRef, createContext, useContext } from 'react';
 
-const initQuestions = [
-    {
-        id: 0,
-        questionType: 0,//0 객관식, 1 OX, 2 주관식
-        contentTitle:'',
-        options:
-        [
-            {
-                optionId: 0,
-                contentOption: ''
-            }
-        ]
-    }
-];
+const initSurvey = 
+{
+    surveyTitle: '',
+    questions: 
+    [
+        {
+            id: 0,
+            questionType: 0,//0 객관식, 1 OX, 2 주관식
+            questionContent:'',
+            options:
+            [
+                {
+                    optionId: 0,
+                    optionContent: ''
+                }
+            ]
+        }
+    ]
+}
+
 
 const makeSurveyReducer = (state, action) => {
     switch(action.type){
-        case 'CREATE':
-            return state.concat(action.question);
-        case 'DELETE':
-            return state.filter(question => question.id !== action.id);
+        case 'CREATE_TEXT_QUESTION':
+            return {
+                ...state,
+                questions: state.questions.concat(
+                    {
+                        id: action.id,
+                        questionType: 2,
+                        questionContent: action.content,
+                        options: undefined
+                    }
+                )
+            }
+        case 'CREATE_OX_QUESTION':
+            return {
+                ...state,
+                questions: state.questions.concat(
+                    {
+                        id: action.id,
+                        questionType: 1,
+                        questionContent: action.content,
+                        options: 
+                        [
+                            {
+                                optionId: 0,
+                                optionContent: 'O'
+                            },
+                            {
+                                optionId: 1,
+                                optionContent: 'X'
+                            }
+                        ]
+                    }
+                )
+            }
+        case 'CREATE_SELECT_QUESTION':
+            return {
+                ...state,
+                questions: state.questions.concat(
+                    {
+                        id: action.id,
+                        questionType: 0,
+                        questionContent: action.content,
+                        options: action.options
+                    }
+                )
+            }
+        case 'DELETE_QUESTION':
+            return{
+                ...state,
+                questions: state.questions.filter(question => question.id !== action.id)
+            }
+        case 'CANGE_TITLE':
+            return{
+                ...state,
+                surveyTitle: action.surveyTitle
+            }
         default:
             throw new Error('Unhandled action type');
     }
@@ -31,7 +89,7 @@ const MakeSurveyDispatchContext = createContext();
 const MakeSurveyNextIdContext = createContext();
 
 export const MakeSurveyProvider = ({children}) => {
-    const [state, dispatch] = useReducer(makeSurveyReducer, initQuestions);
+    const [state, dispatch] = useReducer(makeSurveyReducer, initSurvey);
     const nextId = useRef(0);
     return (
         <MakeSurveyStateContext.Provider value={state}>

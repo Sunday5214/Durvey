@@ -44,8 +44,8 @@ const OptionLayout = styled.div`
 
 const OptionInput = ({optionValue, optionId}, key) => {
     const selectDispatch = useSelectQuestionDispatch();
-    const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', id: optionId })
-    const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', id: optionId, optionContent: e.target.value })
+    const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', optionId: optionId })
+    const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', optionId: optionId, optionContent: e.target.value })
     return (
         <OptionLayout>
             <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요">{optionValue}</TextareaAutosize>
@@ -61,11 +61,10 @@ const SelectQuestion = () => {
     const selectState = useSelectQuestionState();
     const nextId = useSelectQuestionNextId();
     const onAddOption = () => {
-        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', id: nextId.current });
+        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', optionId: nextId.current });
         nextId.current += 1;
     }
     const onChangeContent = e => selectDispatch({ type: 'CHANGE_CONTENT', content: e.target.value });
-    console.log(selectState);
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
             <QuestionTitle>객관식 질문</QuestionTitle>
@@ -73,7 +72,7 @@ const SelectQuestion = () => {
             {selectState.options.map(
                 (option) =>
                 {
-                   return <OptionInput optionValue={option.optionContent} optionId={option.id} key={option.id} />
+                   return <OptionInput optionValue={option.optionContent} optionId={option.optionId} key={option.optionId} />
                 }
             )}
             <StyledOptionAddBtn onClick={onAddOption}>
