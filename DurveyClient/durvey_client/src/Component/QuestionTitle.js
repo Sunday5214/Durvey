@@ -13,6 +13,7 @@ const StyledTitle = styled.div`
 const TitleLayout = styled.div`
     display: flex;
     flex-direction: row;
+    padding-right: 5px;
     width: 100%;
     color: black;
 `;
