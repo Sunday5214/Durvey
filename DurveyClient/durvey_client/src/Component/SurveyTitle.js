@@ -6,7 +6,6 @@ const SurveyTitle = () => {
     return (
         <TextareaAutosize className='SurveyTitleStyle' placeholder='제목을 입력해주세요'>
         </TextareaAutosize>
-
     )
 }
 

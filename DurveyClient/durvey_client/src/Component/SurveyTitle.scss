@@ -11,8 +11,12 @@
     font-size: 40px;
     font-family: 'Segoe UI';
     resize: none;
+    text-align: center;
+    caret-color: transparent;
 }
-
+.SurveyTitleStyle::-webkit-input-placeholder{
+    text-align: center;
+}
 .SurveyTitleStyle:focus{
     border-bottom-width: 2px;
 }

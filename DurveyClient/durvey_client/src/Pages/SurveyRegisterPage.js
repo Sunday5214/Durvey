@@ -5,6 +5,7 @@ import OXQuestion from '../Component/OXQuestion.js';
 import SelectQuestion from '../Component/SelectQuestion';
 import TextQuestion from '../Component/TextQuestion';
 import SurveyTitle from '../Component/SurveyTitle';
+import QuestionList from '../Component/QuestionList';
 import { SelectQuestionProvider } from '../Contexts/SelectQuestionContext';
 import { TextQuestionProvider } from '../Contexts/TextQuestionContext';
 import { OXQuestionProvider } from '../Contexts/OXQuestionContext';
@@ -19,9 +20,9 @@ const SurveyRegisterPage = () => {
                             <TextQuestion />
                             <SelectQuestion />
                         </BackgroundBlock>
-                        <BackgroundBlock widthValue='45%' heightValue='500px'>
+                        <BackgroundBlock widthValue='45%' heightValue='auto'>
                             <SurveyTitle />
-                            
+                            <QuestionList/>
                         </BackgroundBlock>
                     </OXQuestionProvider>
                 </TextQuestionProvider>

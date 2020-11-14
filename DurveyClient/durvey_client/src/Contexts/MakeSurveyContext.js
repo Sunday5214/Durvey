@@ -74,7 +74,7 @@ const makeSurveyReducer = (state, action) => {
                 ...state,
                 questions: state.questions.filter(question => question.id !== action.id)
             }
-        case 'CANGE_TITLE':
+        case 'CHANGE_TITLE':
             return{
                 ...state,
                 surveyTitle: action.surveyTitle
