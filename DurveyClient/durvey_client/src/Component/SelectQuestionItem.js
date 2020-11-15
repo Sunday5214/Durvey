@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
-import { QuestionItemLayout, StyledQuestionContent } from './QuestionItemLayout';
+import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
 import RadioButton from './RadioButton';
 
 
@@ -10,9 +10,9 @@ const SelectQuestionItem = ({ content, options, questionId }) => {
     return (
 
         <QuestionItemLayout>
-            <StyledQuestionContent>
+            <QuestionContent clickEvent={onDeletThis}>
                 {content}
-            </StyledQuestionContent>
+            </QuestionContent>
             {options.map(
                 (option) => {
                     return <RadioButton content={option.optionContent} key={option.optionId} />

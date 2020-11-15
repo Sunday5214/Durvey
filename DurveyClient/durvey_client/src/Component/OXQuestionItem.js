@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
-import { QuestionItemLayout, StyledQuestionContent } from './QuestionItemLayout';
+import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
 
 const StyledOXPanel = styled.div`
     width: 50px;
@@ -22,7 +22,7 @@ const StyledOXPanel = styled.div`
     margin: 1px 1px 1px 1px;
 `;
 const StyledPanelLayout = styled.div`
-    margin-left: 10px;
+    margin-left: 15px;
     flex-direction: row;
     display: flex;
     align-items: flex-start;
@@ -35,9 +35,9 @@ const OXQuestionItem = ({ content, questionId }) => {
     const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', id:questionId});
     return (
         <QuestionItemLayout>
-            <StyledQuestionContent>
+            <QuestionContent clickEvent={onDeletThis}>
                 {content}
-            </StyledQuestionContent>
+            </QuestionContent>
             <StyledPanelLayout>
                 <StyledOXPanel>O</StyledOXPanel>
                 <StyledOXPanel>X</StyledOXPanel>

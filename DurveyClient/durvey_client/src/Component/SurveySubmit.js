@@ -13,6 +13,7 @@ const StyledSurveySubmitBox = styled.div`
     border-top-color: #0088FF;
     border-top-width: 1px;
     padding: 2px 2px 2px 2px;
+    margin-top: 10px;
 `;
 
 const StyledSubmitBtn = styled.button`
