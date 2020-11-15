@@ -23,6 +23,8 @@ const QuestionList = () => {
                 (question)=>
                 {
                     switch(question.questionType){
+                        case -1:
+                            return <div key={question.id}></div>;
                         case 0:
                             return <SelectQuestionItem content={question.questionContent} options={question.options} questionId={question.id} key={question.id}/>
                         case 1:

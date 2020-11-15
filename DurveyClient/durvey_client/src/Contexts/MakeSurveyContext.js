@@ -6,8 +6,8 @@ const initSurvey =
     questions: 
     [
         {
-            id: 0,
-            questionType: 0,//0 객관식, 1 OX, 2 주관식
+            id: -1,
+            questionType: -1,//0 객관식, 1 OX, 2 주관식
             questionContent:'',
             options:
             [
