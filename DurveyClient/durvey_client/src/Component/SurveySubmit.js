@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {getRequest} from '../Utils/RestManager';
 
 const StyledSurveySubmitBox = styled.div`
     width: 90%;
@@ -31,6 +32,11 @@ const StyledSubmitBtn = styled.button`
         color: #0088FF;
     }
 `;
+
+const onClick = async () =>{
+    console.log('서버에 제출중');
+    getRequest
+}
 
 const SurveySubmit = () => {
     return(

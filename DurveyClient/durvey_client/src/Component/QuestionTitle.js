@@ -4,22 +4,22 @@ import styled from 'styled-components';
 const StyledTitle = styled.div`
     font-size: 20px;
     font-family: 나눔스퀘어_ac;
-    width: 60%;
+    width: 80%;
     margin-left: 10px;
     margin-top: 10px;
     justify-content: flex-start;
+    justify-self: flex-start;
 `;
 
 const TitleLayout = styled.div`
     display: flex;
     flex-direction: row;
-    padding-right: 5px;
     width: 100%;
     color: black;
 `;
 
 const AddButton = styled.button`
-    width: 40%;
+    width: 100px;
     font-size: 15px;
     background-color: transparent;
     border-style: solid;
@@ -27,12 +27,9 @@ const AddButton = styled.button`
     border-color: #0088FF;
     display: flex;
     justify-content: center;
-
-    justify-self: flex-end;
-    align-items: center;
-    align-self: center;
     margin-top: 10px;
-    margin-right: 5px;
+    margin-right: 10px;
+    padding: 2px;
     opacity: 1;
     cursor: pointer;
     &:hover{
