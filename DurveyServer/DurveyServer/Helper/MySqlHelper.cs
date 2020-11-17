@@ -13,7 +13,7 @@ namespace DurveyServer.Helper
 
         public MySqlHelper()
         {
-            _conn = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=durveydb;Uid=root;Pwd=1234;");
+            _conn = new MySqlConnection("Server=127.0.0.1;Port=3307;Database=durveydb;Uid=root;Pwd=5214;");
         }
 
         public void BeginTransaction()

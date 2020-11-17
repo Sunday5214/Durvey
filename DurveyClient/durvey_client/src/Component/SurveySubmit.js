@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMakeSurveyState } from '../Contexts/MakeSurveyContext';
 import {getRequest} from '../Utils/RestManager';
+import moment from 'moment';
+import 'moment/locale/ko';
+
 
 const StyledSurveySubmitBox = styled.div`
     width: 90%;
@@ -33,15 +37,28 @@ const StyledSubmitBtn = styled.button`
     }
 `;
 
-const onClick = async () =>{
+const PostSurvey = async (surveyState) =>{
+    
     console.log('서버에 제출중');
-    getRequest
+    await getRequest('POST', '/survey/write', 
+    {
+        title: surveyState.surveyTitle,
+        creatorIdx: 1,
+        description: '없음',
+        createDatetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        startDatetime: moment('2020-12-10T20:20:20', 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DDTHH:mm:ss'),
+        endDatetime: moment('2020-12-12T20:20:20', 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DDTHH:mm:ss'),
+        isAnonymous: true
+    });
+    console.log('끝');
 }
 
 const SurveySubmit = () => {
+    const surveyState = useMakeSurveyState();
+    const onClick = () => PostSurvey(surveyState);
     return(
         <StyledSurveySubmitBox>
-            <StyledSubmitBtn>
+            <StyledSubmitBtn onClick={onClick}>
                 등록
             </StyledSubmitBtn>
         </StyledSurveySubmitBox>

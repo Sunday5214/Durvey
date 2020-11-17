@@ -1,6 +1,6 @@
 import React from 'react';
 import TextareaAutosize from "react-autosize-textarea"
-import { useMakeSurveyDispatch, useMakeSurveyState } from '../Contexts/MakeSurveyContext';
+import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
 import './SurveyTitle.scss';
 
 const SurveyTitle = () => {

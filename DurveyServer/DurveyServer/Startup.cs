@@ -19,6 +19,8 @@ namespace DurveyServer
 {
     public class Startup
     {
+        readonly string CorsPolicy = "_corsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,17 +33,11 @@ namespace DurveyServer
         {
             services.AddControllers();
             services.AddSignalR();
-            services.AddCors((options) =>
-            {
-                options.AddDefaultPolicy((policy) =>
-                {
-                    policy.AllowAnyOrigin();
-                });
-            });
+            services.AddCors();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("api", new Microsoft.OpenApi.Models.OpenApiInfo
+                c.SwaggerDoc("api", new OpenApiInfo
                 {
                     Title = "Durvey APIs",
                     Description = "대구소프트웨어고등학교 전용 설문조사 플랫폼 Durvey의 API문서",
@@ -88,7 +84,13 @@ namespace DurveyServer
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -1,15 +1,18 @@
 import axios from 'axios';
 
-export const getRequest = async (method, url, data) => {
+
+axios.defaults.baseURL ='https://localhost:5001/api';
+
+export const getRequest = async (method, resource, data) => {
     switch(method){
         case 'GET':
-            return await axios.get(url);
+            return await axios.get(resource);
         case 'POST':
-            return await axios.post(url, data);
+            return await axios.post(resource, data);
         case 'DELETE':
-            return await axios.delete(url);
+            return await axios.delete(resource);
         case 'PUT':
-            return await axios.put(url, data);
+            return await axios.put(resource, data);
         default:
             return new Error('Unhandled Method');
     }
