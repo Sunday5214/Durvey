@@ -7,24 +7,31 @@ import TextQuestion from '../Component/TextQuestion';
 import SurveyTitle from '../Component/SurveyTitle';
 import QuestionList from '../Component/QuestionList';
 import SurveySubmit from '../Component/SurveySubmit';
+import Calendar from 'react-calendar';
+import '../Component/CustomCalendar/Calendar.css';
 import { SelectQuestionProvider } from '../Contexts/SelectQuestionContext';
 import { TextQuestionProvider } from '../Contexts/TextQuestionContext';
 import { OXQuestionProvider } from '../Contexts/OXQuestionContext';
+
 const SurveyRegisterPage = () => {
     return (
         <div className='MakeSurvey'>
             <SelectQuestionProvider>
                 <TextQuestionProvider>
                     <OXQuestionProvider>
-                        <BackgroundBlock widthValue='25%' heightValue='auto'>
+                        <BackgroundBlock widthValue='20%' heightValue='auto'>
                             <OXQuestion />
                             <TextQuestion />
                             <SelectQuestion />
                         </BackgroundBlock>
-                        <BackgroundBlock widthValue='45%' heightValue='auto'>
+                        <BackgroundBlock widthValue='40%' heightValue='auto'>
                             <SurveyTitle />
-                            <QuestionList/>
-                            <SurveySubmit/>
+                            <QuestionList />
+                            <SurveySubmit />
+                        </BackgroundBlock>
+                        <BackgroundBlock widthValue='20%' heightValue='auto'>
+                            <Calendar/>
+                            <Calendar/>
                         </BackgroundBlock>
                     </OXQuestionProvider>
                 </TextQuestionProvider>
