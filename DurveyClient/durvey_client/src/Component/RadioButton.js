@@ -33,7 +33,7 @@ const RadioButtonLayout = styled.div`
 const RadioButton = ({ content }) => {
     return (
         <RadioButtonLayout>
-            <RadioCircle />
+            <RadioCircle/>
             <RadioContent>{content}</RadioContent>
         </RadioButtonLayout>
     )

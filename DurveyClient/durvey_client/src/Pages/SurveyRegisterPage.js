@@ -7,11 +7,12 @@ import TextQuestion from '../Component/TextQuestion';
 import SurveyTitle from '../Component/SurveyTitle';
 import QuestionList from '../Component/QuestionList';
 import SurveySubmit from '../Component/SurveySubmit';
-import Calendar from 'react-calendar';
+
 import '../Component/CustomCalendar/Calendar.css';
 import { SelectQuestionProvider } from '../Contexts/SelectQuestionContext';
 import { TextQuestionProvider } from '../Contexts/TextQuestionContext';
 import { OXQuestionProvider } from '../Contexts/OXQuestionContext';
+import SurveySetting from '../Component/SurveySetting';
 
 const SurveyRegisterPage = () => {
     return (
@@ -30,8 +31,7 @@ const SurveyRegisterPage = () => {
                             <SurveySubmit />
                         </BackgroundBlock>
                         <BackgroundBlock widthValue='20%' heightValue='auto'>
-                            <Calendar/>
-                            <Calendar/>
+                            <SurveySetting/>
                         </BackgroundBlock>
                     </OXQuestionProvider>
                 </TextQuestionProvider>

@@ -3,6 +3,9 @@ import React, { useReducer, useRef, createContext, useContext } from 'react';
 const initSurvey = 
 {
     surveyTitle: '',
+    startDatetime: '',
+    endDatetime: '',
+    isAnonymous: false,
     questions: 
     [
         {
@@ -78,6 +81,21 @@ const makeSurveyReducer = (state, action) => {
             return{
                 ...state,
                 surveyTitle: action.surveyTitle
+            }
+        case 'CHANGE_START_DATETIME':
+            return{
+                ...state,
+                startDatetime: action.startDatetime
+            }
+        case 'CHANGE_END_DATETIME':
+            return{
+                ...state,
+                endDatetime: action.endDatetime
+            }
+        case 'TOGGLE_ISANONYMOUS':
+            return{
+                ...state,
+                isAnonymous: !state.isAnonymous
             }
         default:
             throw new Error('Unhandled action type');

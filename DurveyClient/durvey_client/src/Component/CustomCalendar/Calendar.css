@@ -1,7 +1,6 @@
 .react-calendar {
   width: 350px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
   max-width: 100%;
   background: white;
   border: none;
@@ -94,11 +93,11 @@
   background-color: #e6e6e6;
 }
 .react-calendar__tile--now {
-  background: #ffff76;
+  background: #8fc3ff;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
+  background: #8fc3ff;
 }
 .react-calendar__tile--hasActive {
   background: #76baff;
