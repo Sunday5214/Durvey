@@ -43,12 +43,20 @@ const removeChar = event => {
         event.target.value = event.target.value.replace(/[^0-9]/g, "");
 }
 
-const TimeInput = ({onDatetimeChanged}) => {
+const TimeInput = ({onTimeChanged, value}) => {
+    const hour = value.split(':')[0];
+    const min = value.split(':')[1];
+    const onChangeHour = e => {
+        onTimeChanged(e.target.value+':'+min);
+    }
+    const onChangeMin = e => {
+        onTimeChanged(hour+':'+e.target.value);
+    }
     return(
         <TimeInputLayout>
-            <InputArea onChange={onDatetimeChanged} onKeyDown={onlyNumber} onKeyUp={removeChar}/>
+            <InputArea onBlur={onChangeHour} defaultValue={hour} onKeyDown={onlyNumber} onKeyUp={removeChar}/>
             <div>시</div>
-            <InputArea onChange={onDatetimeChanged} onKeyDown={onlyNumber} onKeyUp={removeChar}/>
+            <InputArea onBlur={onChangeMin} defaultValue={min} onKeyDown={onlyNumber} onKeyUp={removeChar}/>
             <div>분</div>
         </TimeInputLayout>
     )

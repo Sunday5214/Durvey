@@ -1,11 +1,10 @@
 import React, { useReducer, useRef, createContext, useContext } from 'react';
-
+import moment from 'moment';
 const initSurvey = 
 {
     surveyTitle: '',
-    startDatetime: '',
-    endDatetime: '',
-    isAnonymous: false,
+    startDatetime: moment().format('YYYY-MM-DDTHH:mm'),
+    endDatetime: moment().format('YYYY-MM-DDTHH:mm'),
     questions: 
     [
         {
@@ -91,11 +90,6 @@ const makeSurveyReducer = (state, action) => {
             return{
                 ...state,
                 endDatetime: action.endDatetime
-            }
-        case 'TOGGLE_ISANONYMOUS':
-            return{
-                ...state,
-                isAnonymous: !state.isAnonymous
             }
         default:
             throw new Error('Unhandled action type');

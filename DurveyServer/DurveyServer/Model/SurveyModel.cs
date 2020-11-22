@@ -131,10 +131,10 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"insert into surveys (title, creatorIdx, description, createDatetime, startDatetime, endDatetime, IsAnonymous) " +
-                    $"value ('{survey.Title}', '{survey.CreatorIdx}', '{survey.Description}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
+                string sql = $"insert into surveys (title, creatorIdx, createDatetime, startDatetime, endDatetime) " +
+                    $"value ('{survey.Title}', '{survey.CreatorIdx}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
                     $"'{MysqlFormatHelper.ConvertDatetime(survey.StartDatetime)}', " +
-                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}', '{MysqlFormatHelper.ConvertBoolean(survey.IsAnonymous)}')";
+                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}')";
                 using(var db = new MySqlHelper())
                 {
                     return (db.Execute(sql, this), HttpStatusCode.OK);

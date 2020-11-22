@@ -11,12 +11,8 @@ namespace DurveyServer.Entities
         public int Idx { get; set; }
         public string Title { get; set; }
         public int CreatorIdx { get; set; }
-        public string Description { get; set; }
         public DateTime CreateDatetime { get; set; }
         public DateTime StartDatetime { get; set; }
         public DateTime EndDatetime { get; set; }
-        public bool IsAnonymous { get; set; }
-
-        
     }
 }

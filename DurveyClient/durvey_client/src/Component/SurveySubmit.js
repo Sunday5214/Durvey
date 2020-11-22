@@ -44,18 +44,24 @@ const PostSurvey = async (surveyState) =>{
     {
         title: surveyState.surveyTitle,
         creatorIdx: 1,
-        description: '없음',
         createDatetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-        startDatetime: moment('2020-12-10T20:20:20', 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DDTHH:mm:ss'),
-        endDatetime: moment('2020-12-12T20:20:20', 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DDTHH:mm:ss'),
-        isAnonymous: true
+        startDatetime: surveyState.startDatetime,
+        endDatetime: surveyState.endDatetime,
     });
     console.log('끝');
 }
 
+const PostQuestions = async(surveyState)=>{
+    
+}
+
 const SurveySubmit = () => {
     const surveyState = useMakeSurveyState();
-    const onClick = () => PostSurvey(surveyState);
+    const onClick = async() => {
+        await PostSurvey(surveyState);
+
+    }
+
     return(
         <StyledSurveySubmitBox>
             <StyledSubmitBtn onClick={onClick}>
