@@ -19,8 +19,6 @@ namespace DurveyServer
 {
     public class Startup
     {
-        readonly string CorsPolicy = "_corsPolicy";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

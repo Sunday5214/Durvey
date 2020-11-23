@@ -124,12 +124,12 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public ResponseEntity<Default> Write([FromBody]SurveyEntity survey)
+        public ResponseEntity<int?> Write([FromBody]SurveyEntity survey)
         {
             (int? Data, HttpStatusCode Status) writeResult = surveyModel.WriteSurvey(survey);
             if(writeResult.Data == null)
             {
-                return new ResponseEntity<Default>()
+                return new ResponseEntity<int?>()
                 {
                     Data = null,
                     Message = "서버 오류",
@@ -138,9 +138,9 @@ namespace DurveyServer.Controllers
             }
             else
             {
-                return new ResponseEntity<Default>()
+                return new ResponseEntity<int?>()
                 {
-                    Data = null,
+                    Data = writeResult.Data,
                     Message = "성공적으로 생성되었습니다.",
                     Status = writeResult.Status
                 };
@@ -149,9 +149,9 @@ namespace DurveyServer.Controllers
 
         [Route("question/[action]")]
         [HttpPost]
-        public ResponseEntity<Default> Add([FromBody] QuestionEntity question)
+        public ResponseEntity<Default> Write([FromBody] QuestionData questionData)
         {
-            (int? Data, HttpStatusCode Status) addResult = surveyModel.AddQuestion(question);
+            (int? Data, HttpStatusCode Status) addResult = surveyModel.WriteQuestion(questionData.Questions, questionData.RegistedSurveyIdx);
             if (addResult.Data == null)
             {
                 return new ResponseEntity<Default>()

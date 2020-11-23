@@ -38,16 +38,16 @@ namespace DurveyServer
             }
         }
 
-        private List<ChoiceEntity> GetChoices(int questionIdx)
+        private List<OptionEntity> GetChoices(int questionIdx)
         {
             try
             {
                 string sql = $"select * from choices where questionIdx ='{questionIdx}'";
 
-                List<ChoiceEntity> choices;
+                List<OptionEntity> choices;
                 using(var db = new MySqlHelper())
                 {
-                    choices = db.Query<ChoiceEntity>(sql, this);
+                    choices = db.Query<OptionEntity>(sql, this);
                 }
 
                 if(choices == null)
@@ -77,7 +77,7 @@ namespace DurveyServer
 
                 foreach(QuestionEntity question in questions)
                 {
-                    question.Choices = GetChoices(question.Idx);
+                    question.Options = GetChoices(question.Idx);
                 }
 
                 if(questions == null)
@@ -132,9 +132,9 @@ namespace DurveyServer
             try
             {
                 string sql = $"insert into surveys (title, creatorIdx, createDatetime, startDatetime, endDatetime)" +
-                    $"value ('{survey.Title}', '{survey.CreatorIdx}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
+                    $"values ('{survey.Title}', '{survey.CreatorIdx}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
                     $"'{MysqlFormatHelper.ConvertDatetime(survey.StartDatetime)}', " +
-                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}') returning idx";
+                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}'); select LAST_INSERT_ID();";
                 using(var db = new MySqlHelper())
                 {
                     return (db.QuerySingle<int>(sql, this), HttpStatusCode.OK);
@@ -146,15 +146,34 @@ namespace DurveyServer
             }
         }
 
-        internal (int?, HttpStatusCode) AddQuestion(QuestionEntity question)
+        internal (int?, HttpStatusCode) WriteQuestion(List<QuestionEntity> questions, int registedSurveyIdx)
         {
             try
             {
-                string sql = $"insert into questions (questionContent, surveyIdx, questionType, isNecessary) value ('{question.QuestionContent}', '{question.SurveyIdx}', '{question.QuestionType}', '{question.IsNecessary}')";
-                using(var db = new MySqlHelper())
+                foreach(QuestionEntity question in questions)
                 {
-                    return (db.Execute(sql, this), HttpStatusCode.OK);
+                    string sql = $"insert into questions (questionContent, surveyIdx, questionType) values " +
+                    $"('{question.QuestionContent}', '{registedSurveyIdx}', '{(int)question.QuestionType}'); " +
+                    $"select LAST_INSERT_ID();";
+
+                    using (var db = new MySqlHelper())
+                    {
+                        int questionIdx = db.QuerySingle<int>(sql, this);
+                        if (question.Options != null)
+                        {
+                            string choiceSql = "";
+                            int count = 0;
+                            foreach (var option in question.Options)
+                            {
+                                count++;
+                                choiceSql = $"insert into choices (content, questionIdx, number) values ('{option.optionContent}', '{questionIdx}', '{count}')";
+                                db.Execute(choiceSql, this);
+                            }
+                        }
+                    }   
                 }
+                return (null, HttpStatusCode.OK);
+
             }
             catch
             {

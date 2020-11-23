@@ -38,9 +38,7 @@ const StyledSubmitBtn = styled.button`
 `;
 
 const PostSurvey = async (surveyState) =>{
-    
-    console.log('서버에 제출중');
-    await getRequest('POST', '/survey/write', 
+    return await getRequest('POST', '/survey/write', 
     {
         title: surveyState.surveyTitle,
         creatorIdx: 1,
@@ -48,18 +46,21 @@ const PostSurvey = async (surveyState) =>{
         startDatetime: surveyState.startDatetime,
         endDatetime: surveyState.endDatetime,
     });
-    console.log('끝');
 }
 
-const PostQuestions = async(surveyState)=>{
-    
+const PostQuestions = async(registedSurveyIdx, surveyState)=>{
+    await getRequest('POST', '/survey/question/write',
+    {
+        Questions: surveyState.questions.filter(question => question.id !== -1),
+        RegistedSurveyIdx:registedSurveyIdx
+    });
 }
 
 const SurveySubmit = () => {
     const surveyState = useMakeSurveyState();
     const onClick = async() => {
-        await PostSurvey(surveyState);
-
+        const res = await PostSurvey(surveyState);
+        await PostQuestions(res.data.data, surveyState);
     }
 
     return(

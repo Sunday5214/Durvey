@@ -50,7 +50,7 @@ const SurveySetting = () => {
     }
     const onChangeEndTime = time =>{
         datetimeDisptach({type:'CHANGE_END_DATETIME',
-        startDatetime: moment(defaultEndDate).format('YYYY-MM-DD')+'T'+time});
+        endDatetime: moment(defaultEndDate).format('YYYY-MM-DD')+'T'+time});
     }
     return (
         <SettingLayout>

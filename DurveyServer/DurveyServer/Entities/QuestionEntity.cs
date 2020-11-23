@@ -10,9 +10,13 @@ namespace DurveyServer.Entities
     {
         public int Idx { get; set; }
         public string QuestionContent { get; set; }
-        public int SurveyIdx { get; set; }
         public QuestionType QuestionType { get; set; }
-        public bool IsNecessary { get; set; }
-        public List<ChoiceEntity> Choices { get; set; }
+        public List<OptionEntity> Options { get; set; }
+    }
+
+    public class QuestionData
+    {
+        public List<QuestionEntity> Questions { get; set; }
+        public int RegistedSurveyIdx { get; set; }
     }
 }
