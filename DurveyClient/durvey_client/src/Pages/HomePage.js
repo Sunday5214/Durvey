@@ -4,7 +4,7 @@ import './HomePage.scss'
 const HomePage = () => {
     return (
         <div className='home'>
-            <img src={durvey} />
+            
         </div>
 
     )

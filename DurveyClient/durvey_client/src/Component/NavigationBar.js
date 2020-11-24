@@ -11,6 +11,7 @@ const StyledNavigationBar = styled.div`
     opacity: 1;
     z-index: 5;
     display: flex;
+
 `;
 
 
@@ -165,7 +166,7 @@ const Navigation = () => {
                 <StyledNavigationListWrap>
                     <StyledNavigation>
                         <NavigationItem link='/make/survey'>등록</NavigationItem>
-                        <NavigationItem link='/make/survey'>설문조사</NavigationItem>
+                        <NavigationItem link='/answer/survey'>설문조사</NavigationItem>
                         <NavigationItem link='/make/survey'>실시간 투표</NavigationItem>
                         <NavigationItem link='/make/survey'>설문결과</NavigationItem>
                     </StyledNavigation>
