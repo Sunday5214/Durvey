@@ -1,26 +1,39 @@
 import React, { useReducer, useRef, createContext, useContext } from 'react';
 
-const initSurveys =
+const initSurvey =
 {
-    surveys:
-        [
-            {
-                createDatetime: '',
-                creatorIdx: -1,
-                endDatetime: '',
-                idx: -1,
-                startDatetime: '',
-                title: ''
-            }
-        ]
+    questions: [
+        {
+            idx: -1,
+            questionContent: '',
+            questiontype: -1,
+            options: 
+            [
+                {
+                    idx: -1,
+                    optionContent: '',
+                    questionIdx: '',
+                    number: -1,
+                    selectCount: -1
+                }
+            ]
+        }
+    ]
+    
 }
 
+
 const answerSurveyReducer = (state, action) => {
-    switch(action.type){
-        case 'LOAD_SURVEYS':
+    switch (action.type) {
+        case 'LOAD_QUESTIONS':
+            return {
+                ...state,
+                questions: action.Data
+            };
+        case 'SELETE_OX':
             return{
                 ...state,
-                surveys: action.surveys
+                questions: state.questions.map
             }
         default:
             console.log('Unhandled action type');
@@ -30,9 +43,9 @@ const answerSurveyReducer = (state, action) => {
 const AnswerSurveyStateContext = createContext();
 const AnswerSurveyDispatchContext = createContext();
 
-export const AnswerSurveyProvider = ({children}) => {
-    const [state, dispatch] = useReducer(answerSurveyReducer, initSurveys);
-    return(
+export const AnswerSurveyProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(answerSurveyReducer, initSurvey);
+    return (
         <AnswerSurveyStateContext.Provider value={state}>
             <AnswerSurveyDispatchContext.Provider value={dispatch}>
                 {children}
@@ -43,7 +56,7 @@ export const AnswerSurveyProvider = ({children}) => {
 
 export const useAnswerSurveyState = () => {
     const context = useContext(AnswerSurveyStateContext);
-    if(!context){
+    if (!context) {
         throw new Error('Cannot find Provider');
     }
     return context;
@@ -51,7 +64,7 @@ export const useAnswerSurveyState = () => {
 
 export const useAnswerSurveyDispatch = () => {
     const context = useContext(AnswerSurveyDispatchContext);
-    if(!context){
+    if (!context) {
         throw new Error('Cannot find Provider');
     }
     return context;

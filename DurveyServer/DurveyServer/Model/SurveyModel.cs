@@ -38,11 +38,13 @@ namespace DurveyServer
             }
         }
 
-        private List<OptionEntity> GetChoices(int questionIdx)
+
+
+        private List<OptionEntity> GetOptions(int questionIdx)
         {
             try
             {
-                string sql = $"select * from choices where questionIdx ='{questionIdx}'";
+                string sql = $"select * from options where questionIdx ='{questionIdx}'";
 
                 List<OptionEntity> choices;
                 using(var db = new MySqlHelper())
@@ -77,7 +79,7 @@ namespace DurveyServer
 
                 foreach(QuestionEntity question in questions)
                 {
-                    question.Options = GetChoices(question.Idx);
+                    question.Options = GetOptions(question.Idx);
                 }
 
                 if(questions == null)
@@ -166,7 +168,7 @@ namespace DurveyServer
                             foreach (var option in question.Options)
                             {
                                 count++;
-                                choiceSql = $"insert into choices (content, questionIdx, number) values ('{option.optionContent}', '{questionIdx}', '{count}')";
+                                choiceSql = $"insert into choices (content, questionIdx, number) values ('{option.OptionContent}', '{questionIdx}', '{count}')";
                                 db.Execute(choiceSql, this);
                             }
                         }

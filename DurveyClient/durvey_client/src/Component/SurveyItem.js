@@ -51,9 +51,9 @@ const StyledEffectiveDate = styled.div`
     opacity: 0.8;
 `;
 
-const SurveyItem = ({title, startDatetime, endDateTime, onAnswerSurvey}) => {
+const SurveyItem = ({title, startDatetime, endDateTime, surveyIdx, onAnswerSurvey}) => {
     return(
-        <StyledSurveyItemBox onClick={onAnswerSurvey}>
+        <StyledSurveyItemBox onClick={() => onAnswerSurvey(surveyIdx)}>
             <StyledSurveyItemTitle>{title}</StyledSurveyItemTitle>
             <StyledSurveyItemBottomBox>
                 <StyledEffectiveDate>

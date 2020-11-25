@@ -14,6 +14,7 @@ const initSelectQuestion = {
 
 
 const selectQuestionReducer = (state, action) => {
+    console.log(state);
     switch (action.type) {
         case 'CHANGE_CONTENT':
             return {

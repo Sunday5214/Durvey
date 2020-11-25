@@ -1,21 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './AnswerSurveyPage.scss';
-import {getRequest} from '../Utils/RestManager';
+import { getRequest } from '../Utils/RestManager';
 import SurveyItem from '../Component/SurveyItem';
 import Modal from '../Component/SurveyModal';
+import AnswerSurvey from '../Component/AnswerSurvey';
 
 const AnswerSurveyPage = () => {
     const [surveyListState, setSurveyList] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false)
-    const openModal = () => {
-      setModalVisible(true)
+    const [modalVisible, setModalVisible] = useState({ selectedIdx: -1, visible: false })
+    const openModal = (surveyIdx) => {
+        setModalVisible({ selectedIdx: surveyIdx, visible: true })
     }
     const closeModal = () => {
-      setModalVisible(false)
+        setModalVisible({ selectedIdx: -1, visible: false })
     }
-    useEffect(()=>{
+    useEffect(() => {
 
-        const getSurveyList = async() => {
+        const getSurveyList = async () => {
             const surveyListdata = await getRequest('GET', '/survey/surveys');
             setSurveyList(surveyListdata.data.data)
 
@@ -25,10 +26,11 @@ const AnswerSurveyPage = () => {
     return (
         <div className='AnswerSurvey'>
             {
-                surveyListState.map(survey=>(
+                surveyListState.map(survey => (
                     <SurveyItem
                         onAnswerSurvey={openModal}
                         key={survey.idx}
+                        surveyIdx={survey.idx}
                         title={survey.title}
                         startDatetime={survey.startDatetime}
                         endDateTime={survey.endDatetime}
@@ -36,40 +38,13 @@ const AnswerSurveyPage = () => {
                 ))
             }
             {
-                modalVisible && <Modal
-                visible={modalVisible}
-                closable={true}
-                maskClosable={true}
-                onClose={closeModal}>
-                    Hello
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    d
-                    <br/>
-                    w
-                    <br/>
-                    e
-                    <br/>
-                    hello
+                modalVisible.visible && <Modal
+                    visible={modalVisible.visible}
+                    closable={true}
+                    maskClosable={true}
+                    onClose={closeModal}>
+                    <AnswerSurvey surveyIdx={modalVisible.selectedIdx} />
+
                 </Modal>
             }
         </div>
