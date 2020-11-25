@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.13-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win32 (AMD64)
 --
 -- Host: localhost    Database: durveydb
 -- ------------------------------------------------------
--- Server version	10.4.13-MariaDB
+-- Server version	10.5.8-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,12 +26,12 @@ CREATE TABLE `choices` (
   `idx` int(11) NOT NULL AUTO_INCREMENT,
   `content` text NOT NULL,
   `questionIdx` int(11) NOT NULL,
-  `number` int(11) DEFAULT 0,
-  `selectCount` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `selectCount` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idx`),
   KEY `choices_ibfk_1` (`questionIdx`),
   CONSTRAINT `choices_ibfk_1` FOREIGN KEY (`questionIdx`) REFERENCES `questions` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `choices` (
 
 LOCK TABLES `choices` WRITE;
 /*!40000 ALTER TABLE `choices` DISABLE KEYS */;
-INSERT INTO `choices` VALUES (1,'숟가락',1,1,0),(2,'젓가락',1,2,0),(3,'이두박근',1,3,0),(4,'밥그릇',1,4,0),(5,'국그릇',1,5,0);
+INSERT INTO `choices` VALUES (1,'숟가락',1,1,0),(2,'젓가락',1,2,0),(3,'이두박근',1,3,0),(4,'밥그릇',1,4,0),(5,'국그릇',1,5,0),(6,'O',2,1,0),(7,'X',2,2,0),(8,'1. 하하 잘되나요?',4,1,0),(9,'2. 안되면 눈물 날지도...',4,2,0),(10,'3. 희망을 가져요',4,3,0),(11,'4. 끝나면 롤하애지',4,4,0),(12,'5. 살기 빡세죠?',4,5,0);
 /*!40000 ALTER TABLE `choices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,12 +84,11 @@ CREATE TABLE `questions` (
   `idx` int(11) NOT NULL AUTO_INCREMENT,
   `questionContent` text NOT NULL,
   `surveyIdx` int(11) NOT NULL,
-  `questionType` int(11) DEFAULT 1,
-  `isNecessary` int(11) NOT NULL,
+  `questionType` int(11) NOT NULL,
   PRIMARY KEY (`idx`),
   KEY `questions_ibfk_1` (`surveyIdx`),
   CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`surveyIdx`) REFERENCES `surveys` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +97,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'다음중 밥먹을때 필요한것은',1,2,0);
+INSERT INTO `questions` VALUES (1,'다음중 밥먹을때 필요한것은',1,2),(2,'1. 안녕하세요 테스트입니다',23,1),(3,'2. 안녕하세요 주관식 테스트입니다',23,2),(4,'3. 안녕하세요 객관식 테스트입니다',23,0);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,15 +177,13 @@ CREATE TABLE `surveys` (
   `idx` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `creatorIdx` int(11) NOT NULL,
-  `description` text DEFAULT NULL,
   `createDatetime` datetime NOT NULL,
   `startDatetime` datetime NOT NULL,
   `endDatetime` datetime NOT NULL,
-  `IsAnonymous` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idx`),
   KEY `surveys_ibfk_1` (`creatorIdx`),
   CONSTRAINT `surveys_ibfk_1` FOREIGN KEY (`creatorIdx`) REFERENCES `users` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +192,7 @@ CREATE TABLE `surveys` (
 
 LOCK TABLES `surveys` WRITE;
 /*!40000 ALTER TABLE `surveys` DISABLE KEYS */;
-INSERT INTO `surveys` VALUES (1,'학교 급식 설문조사',1,'학교급식설문을 위한 설문','2020-09-04 00:00:00','2020-09-04 00:00:00','2020-09-05 00:00:00',0),(2,'hello world',1,'테스트용 설문','2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00',1);
+INSERT INTO `surveys` VALUES (1,'학교 급식 설문조사',1,'2020-09-04 00:00:00','2020-09-04 00:00:00','2020-09-05 00:00:00'),(2,'hello world',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(3,'hello world2',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(4,'hello world3',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(5,'와 이게되네',1,'2020-11-22 05:03:24','2020-11-23 09:30:00','0001-01-01 12:00:00'),(6,'hello world4',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(7,'hello world5',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(8,'hello world6',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(9,'hello world9',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(10,'hello world12',1,'2020-09-23 12:00:00','2020-09-24 12:00:00','2020-09-26 12:00:00'),(11,'',1,'2020-11-23 08:48:59','2020-11-23 08:48:00','2020-11-23 08:48:00'),(12,'1234',1,'2020-11-23 08:50:07','2020-11-23 08:48:00','2020-11-23 08:48:00'),(13,'',1,'2020-11-23 09:34:25','2020-11-26 10:40:00','0001-01-01 12:00:00'),(14,'하하제목을 깜빡했네요',1,'2020-11-23 09:37:21','2020-11-26 10:40:00','2020-11-27 09:36:00'),(15,'하하제목을 깜빡했네요',1,'2020-11-23 09:38:49','2020-11-26 10:40:00','2020-11-27 09:36:00'),(16,'하하제목을 깜빡했네요',1,'2020-11-23 09:41:41','2020-11-26 10:40:00','2020-11-27 09:36:00'),(17,'하하제목을 깜빡했네요',1,'2020-11-23 09:53:48','2020-11-26 10:40:00','2020-11-27 09:36:00'),(18,'하하제목을 깜빡했네요',1,'2020-11-23 09:53:56','2020-11-26 10:40:00','2020-11-27 09:36:00'),(19,'하하제목을 깜빡했네요',1,'2020-11-23 09:54:41','2020-11-26 10:40:00','2020-11-27 09:36:00'),(20,'하하제목을 깜빡했네요',1,'2020-11-23 09:57:52','2020-11-26 10:40:00','2020-11-27 09:36:00'),(21,'하하제목을 깜빡했네요',1,'2020-11-23 09:58:54','2020-11-26 10:40:00','2020-11-27 09:36:00'),(22,'하하제목을 깜빡했네요',1,'2020-11-23 10:04:25','2020-11-26 10:40:00','2020-11-27 09:36:00'),(23,'하하제목을 깜빡했네요',1,'2020-11-23 10:11:04','2020-11-26 10:40:00','2020-11-27 09:36:00');
 /*!40000 ALTER TABLE `surveys` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-13 19:56:44
+-- Dump completed on 2020-11-25 12:28:00
