@@ -109,16 +109,16 @@ const StyledLogin = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-left: 8px;
+    margin-left: 5px;
 `;
 const StyledLoginIcon = styled.div`
     height: 100%;
     width: 40%;
-    font-size: 30px;
+    font-size: 25px;
     color: black;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 `;
 
 const StyledLoginButton = styled.button`

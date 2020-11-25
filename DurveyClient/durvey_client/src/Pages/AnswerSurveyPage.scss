@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-content: stretch;
     flex-wrap: wrap;
-    width: 70%;
+    width: 80%;
     height: auto;
     animation: fadein 2s;
     -moz-animation: fadein 2s;

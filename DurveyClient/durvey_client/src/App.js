@@ -5,9 +5,9 @@ import './App.scss';
 import { PageProvider } from './Contexts/PageContext.js';
 import { MakeSurveyProvider } from './Contexts/MakeSurveyContext.js';
 
-
 const App = () => {
   return (
+    
     <PageProvider>
       <MakeSurveyProvider>
 
@@ -16,6 +16,7 @@ const App = () => {
 
           </head>
           <body>
+            
             <div className="container">
               <div className="topBox">
                 <Navigation />

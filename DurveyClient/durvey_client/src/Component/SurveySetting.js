@@ -35,7 +35,6 @@ const SurveySetting = () => {
     const defaultEndDate = new Date(moment(datetimeState.endDatetime).format('YYYY-MM-DD'));
     const defaultStartTime =  moment(datetimeState.startDatetime).format('HH:mm');
     const defaultEndTime = moment(datetimeState.endDatetime).format('HH:mm');
-    console.log(datetimeState);
     const onChangeStartDate = startDate => {
         datetimeDisptach({type:'CHANGE_START_DATETIME', 
         startDatetime: moment(startDate).format('YYYY-MM-DD')+'T'+defaultStartTime});
