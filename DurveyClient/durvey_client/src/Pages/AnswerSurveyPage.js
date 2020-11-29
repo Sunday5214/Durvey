@@ -9,10 +9,20 @@ const AnswerSurveyPage = () => {
     const [surveyListState, setSurveyList] = useState([]);
     const [modalVisible, setModalVisible] = useState({ selectedIdx: -1, visible: false })
     const openModal = (surveyIdx) => {
-        setModalVisible({ selectedIdx: surveyIdx, visible: true })
+        setModalVisible(
+            {
+                ...modalVisible, 
+                selectedIdx: surveyIdx, 
+                visible: true 
+            })
     }
     const closeModal = () => {
-        setModalVisible({ selectedIdx: -1, visible: false })
+        setModalVisible(
+            {
+                ...modalVisible, 
+                selectedIdx: -1, 
+                visible: false 
+            })
     }
     useEffect(() => {
 
@@ -38,13 +48,13 @@ const AnswerSurveyPage = () => {
                 ))
             }
             {
+                
                 modalVisible.visible && <Modal
                     visible={modalVisible.visible}
                     closable={true}
                     maskClosable={true}
                     onClose={closeModal}>
                     <AnswerSurvey surveyIdx={modalVisible.selectedIdx} />
-
                 </Modal>
             }
         </div>

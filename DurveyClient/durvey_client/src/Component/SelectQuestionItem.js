@@ -4,13 +4,13 @@ import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
 import RadioButton from './RadioButton';
 
 
-const SelectQuestionItem = ({ content, options, questionId }) => {
+const SelectQuestionItem = ({ content, options, questionId, isDeleteMode }) => {
     const questionsDisatch = useMakeSurveyDispatch();
     const onDeletThis = () => questionsDisatch({ type: 'DELETE_QUESTION', id: questionId });
     return (
 
         <QuestionItemLayout>
-            <QuestionContent clickEvent={onDeletThis}>
+            <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>
                 {content}
             </QuestionContent>
             {options.map(

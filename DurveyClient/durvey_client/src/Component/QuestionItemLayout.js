@@ -38,15 +38,24 @@ const StyledDeleteQuestionIcon = styled.div`
     }
 `;
 
-export const QuestionContent = ({ children, clickEvent }) => {
+export const QuestionContent = ({ children, clickEvent, isDeleteMode }) => {
     return (
         <StyledQuestionContentLayout>
             <StyledQuestionContent>
                 {children}
             </StyledQuestionContent>
-            <StyledDeleteQuestionIcon>
-                <MdRemoveCircleOutline onClick={clickEvent}/>
-            </StyledDeleteQuestionIcon>
+            {
+                isDeleteMode ? 
+                <StyledDeleteQuestionIcon>
+                    <MdRemoveCircleOutline onClick={clickEvent}/>
+                </StyledDeleteQuestionIcon>
+                :
+                null
+            }            
         </StyledQuestionContentLayout>
     )
+}
+
+QuestionContent.defaultProps = {
+    isDeleteMode: true
 }

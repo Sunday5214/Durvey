@@ -30,12 +30,12 @@ const StyledPanelLayout = styled.div`
     width: 100%;
 `;
 
-const OXQuestionItem = ({ content, questionId }) => {
+const OXQuestionItem = ({ content, questionId, isDeleteMode }) => {
     const questionsDisatch = useMakeSurveyDispatch();
     const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', id:questionId});
     return (
         <QuestionItemLayout>
-            <QuestionContent clickEvent={onDeletThis}>
+            <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>
                 {content}
             </QuestionContent>
             <StyledPanelLayout>

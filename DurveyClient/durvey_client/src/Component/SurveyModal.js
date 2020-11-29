@@ -73,7 +73,8 @@ const CloseIcon = styled.div`
 
 const ModalWrapper = styled.div`
   box-sizing: border-box;
-  display: ${(props) => (props.visible ? 'block' : 'none')};
+  display: ${(props) => (props.visible ? 'flex' : 'none')};
+  align-content: center;
   position: fixed;
   top: 0;
   right: 0;
@@ -86,7 +87,7 @@ const ModalWrapper = styled.div`
 
 const ModalOverlay = styled.div`
   box-sizing: border-box;
-  display: ${(props) => (props.visible ? 'block' : 'none')};
+  display: ${(props) => (props.visible ? 'flex' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -102,10 +103,11 @@ const ModalInner = styled.div`
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  width: 360px;
-  max-width: 480px;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 1000px;
+  max-width: 1000px;
+  height: 1400px;
+  max-height: 1400px;
+  top: 10%;
   margin: 0 auto;
   padding: 20px 20px;
 `
