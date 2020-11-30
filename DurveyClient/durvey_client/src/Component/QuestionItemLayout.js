@@ -3,6 +3,7 @@ import React from 'react';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 
 export const QuestionItemLayout = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

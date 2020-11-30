@@ -156,6 +156,7 @@ const NavigationItem = ({ link, children }) => {
 const Navigation = () => {
     const dispatch = usePageDispatch();
     const onChange = () => dispatch({ type: 'CHANGE', link: '/home'});
+    const onChangeLogin = () => dispatch({ type: 'CHANGE', link: '/Login'});
     return (
         <StyledNavigationBar>
             <StyledNavigationWrap>
@@ -172,7 +173,7 @@ const Navigation = () => {
                     </StyledNavigation>
                 </StyledNavigationListWrap>
                 <StyledNavigationLogin>
-                    <StyledLoginButton>
+                    <StyledLoginButton onClick={onChangeLogin}>
                         <StyledLoginIcon>
                             <BiLogInCircle />
                         </StyledLoginIcon>

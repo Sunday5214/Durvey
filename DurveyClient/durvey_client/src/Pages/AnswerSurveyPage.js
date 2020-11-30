@@ -54,7 +54,7 @@ const AnswerSurveyPage = () => {
                     closable={true}
                     maskClosable={true}
                     onClose={closeModal}>
-                    <AnswerSurvey surveyIdx={modalVisible.selectedIdx} />
+                    <AnswerSurvey surveyIdx={modalVisible.selectedIdx} surveyTitle={surveyListState.find(survey=>survey.idx===modalVisible.selectedIdx).title}/>
                 </Modal>
             }
         </div>

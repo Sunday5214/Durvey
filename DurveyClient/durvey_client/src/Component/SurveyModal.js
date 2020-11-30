@@ -63,6 +63,7 @@ Modal.propTypes = {
 
 const CloseIcon = styled.div`
   justify-self: flex-end;
+  align-self: flex-end;
   display: flex;
   justify-content: flex-end;
   font-size: 20px;
@@ -98,15 +99,18 @@ const ModalOverlay = styled.div`
 `
 
 const ModalInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   box-sizing: border-box;
   position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-  background-color: #fff;
+  background-color: white;
   border-radius: 10px;
   width: 1000px;
   max-width: 1000px;
   height: 1400px;
-  max-height: 1400px;
   top: 10%;
   margin: 0 auto;
   padding: 20px 20px;

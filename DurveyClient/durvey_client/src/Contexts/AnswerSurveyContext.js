@@ -31,11 +31,6 @@ const answerSurveyReducer = (state, action) => {
                 ...state,
                 questions: action.Data
             };
-        case 'SELETE_OX':
-            return{
-                ...state,
-                questions: state.questions.map
-            }
         default:
             console.log('Unhandled action type');
     }

@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useMakeSurveyState } from '../Contexts/MakeSurveyContext';
-import {getRequest} from '../Utils/RestManager';
-import moment from 'moment';
-import 'moment/locale/ko';
+
+
 
 
 const StyledSurveySubmitBox = styled.div`
-    width: 90%;
+    width: ${props=>props.widthValue};
     display: flex;
+    align-self: center;
+    justify-self: flex-end;
     align-items: center;
     justify-content: center;
     border-top: none;
@@ -22,7 +22,7 @@ const StyledSurveySubmitBox = styled.div`
 `;
 
 const StyledSubmitBtn = styled.button`
-    width: 60px;
+    width: 80px;
     height: 30px;
     border-width: 1px;
     border-color: #0088FF;
@@ -37,36 +37,11 @@ const StyledSubmitBtn = styled.button`
     }
 `;
 
-const PostSurvey = async (surveyState) =>{
-    return await getRequest('POST', '/survey/write', 
-    {
-        title: surveyState.title,
-        creatorIdx: 1,
-        createDatetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
-        startDatetime: surveyState.startDatetime,
-        endDatetime: surveyState.endDatetime,
-    });
-}
-
-const PostQuestions = async(registedSurveyIdx, surveyState)=>{
-    await getRequest('POST', '/survey/question/write',
-    {
-        Questions: surveyState.questions.filter(question => question.idx !== -1),
-        RegistedSurveyIdx:registedSurveyIdx
-    });
-}
-
-const SurveySubmit = () => {
-    const surveyState = useMakeSurveyState();
-    const onClick = async() => {
-        const res = await PostSurvey(surveyState);
-        await PostQuestions(res.data.data, surveyState);
-    }
-
+const SurveySubmit = ({children, clickEvent, widthValue}) => {
     return(
-        <StyledSurveySubmitBox>
-            <StyledSubmitBtn onClick={onClick}>
-                등록
+        <StyledSurveySubmitBox widthValue={widthValue}>
+            <StyledSubmitBtn onClick={clickEvent}>
+                {children}
             </StyledSubmitBtn>
         </StyledSurveySubmitBox>
     )
