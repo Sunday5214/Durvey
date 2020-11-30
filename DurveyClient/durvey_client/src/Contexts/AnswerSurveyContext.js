@@ -5,16 +5,17 @@ const initSurvey =
     questions: [
         {
             idx: -1,
-            questionContent: '',
-            questiontype: -1,
+            content: '',
+            questionType: -1,
             options: 
             [
                 {
                     idx: -1,
-                    optionContent: '',
+                    content: '',
                     questionIdx: '',
                     number: -1,
-                    selectCount: -1
+                    selectCount: -1,
+                    isChecked: false
                 }
             ]
         }

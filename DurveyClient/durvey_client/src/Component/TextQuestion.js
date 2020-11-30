@@ -12,9 +12,9 @@ const TextQuestion = () => {
     const textState = useTextQuestionState();
     const questionNextId = useMakeSurveyNextId();
     const questionDispatch = useMakeSurveyDispatch();
-    const onFocusLost = e => textDispatch({type:'LOST_FOCUS', textContent: e.target.value});
+    const onFocusLost = e => textDispatch({type:'LOST_FOCUS', content: e.target.value});
     const onAddQuestion = () => {
-        questionDispatch({type: 'CREATE_TEXT_QUESTION', id: questionNextId.current, 
+        questionDispatch({type: 'CREATE_TEXT_QUESTION', idx: questionNextId.current, 
         content: textState.content});
         questionNextId.current+=1;
     }

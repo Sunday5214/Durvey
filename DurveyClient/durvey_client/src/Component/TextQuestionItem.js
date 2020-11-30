@@ -4,9 +4,9 @@ import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
 import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
 import './TextQuestionItem.scss';
 
-const TextQuestionItem = ({content, questionId, isDeleteMode}) => {
+const TextQuestionItem = ({content, questionIdx, isDeleteMode}) => {
     const questionsDisatch = useMakeSurveyDispatch();
-    const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', id:questionId});
+    const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', idx:questionIdx});
     return(
         <QuestionItemLayout>
             <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>

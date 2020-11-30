@@ -5,8 +5,9 @@ const initSelectQuestion = {
     options: 
     [
         {
-            optionId:0,
-            optionContent:''
+            idx:0,
+            content:'',
+            isChecked: false
         }
     ]
 };
@@ -14,7 +15,6 @@ const initSelectQuestion = {
 
 
 const selectQuestionReducer = (state, action) => {
-    console.log(state);
     switch (action.type) {
         case 'CHANGE_CONTENT':
             return {
@@ -24,18 +24,18 @@ const selectQuestionReducer = (state, action) => {
         case 'CREATE_OPTIONS':
             return {
                 ...state,
-                options: state.options.concat({optionId: action.optionId, optionContent: action.option})
+                options: state.options.concat({idx: action.idx, content: action.content, isChecked: false})
             }
         case 'DELETE_OPTIONS':
             return{
                 ...state,
-                options: state.options.filter(option => option.optionId !== action.optionId)
+                options: state.options.filter(option => option.idx !== action.idx)
             } 
             
         case 'CHANGE_OPTIONS':
             return {
                 ...state,
-                options: state.options.map(option => option.optionId === action.optionId ? { ...option, optionContent: action.optionContent } : option)
+                options: state.options.map(option => option.idx === action.idx ? { ...option, content: action.content } : option)
             } 
            
         default:

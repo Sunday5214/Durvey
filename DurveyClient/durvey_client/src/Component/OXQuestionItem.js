@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
 import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
+
+let oxoOptions = [];
 
 const StyledOXPanel = styled.div`
     width: 50px;
@@ -10,7 +12,9 @@ const StyledOXPanel = styled.div`
     justify-content: center;
     align-items: center;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid #707070;
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${props=> props.isChecked===true ? '#0088FF' : '#707070'};
     opacity: 1;
     font-size: 40px;
     font-weight: bold;
@@ -30,17 +34,36 @@ const StyledPanelLayout = styled.div`
     width: 100%;
 `;
 
-const OXQuestionItem = ({ content, questionId, isDeleteMode }) => {
+export const GetQuestionResult = () => {
+    return oxoOptions.filter(option=>option.isChecked!==false);
+}
+
+const OXQuestionItem = ({ content, options, questionIdx, isDeleteMode }) => {
+    const [optionState, setOption] = useState(options);
+    const onCheckO = ()=>{
+        oxoOptions = [...optionState];
+        oxoOptions[0].isChecked = true
+        if(oxoOptions[1].isChecked === true)oxoOptions[1].isChecked = false;
+        setOption(oxoOptions);
+    }
+    const onCheckX = ()=>{
+        oxoOptions = [...optionState];
+        oxoOptions[1].isChecked = true
+        if(oxoOptions[0].isChecked === true)oxoOptions[0].isChecked = false;
+        setOption(oxoOptions);
+    }
     const questionsDisatch = useMakeSurveyDispatch();
-    const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', id:questionId});
+    const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', idx:questionIdx});
     return (
         <QuestionItemLayout>
             <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>
                 {content}
             </QuestionContent>
             <StyledPanelLayout>
-                <StyledOXPanel>O</StyledOXPanel>
-                <StyledOXPanel>X</StyledOXPanel>
+                <StyledOXPanel onClick={onCheckO} isChecked={optionState[0].isChecked}
+                    key={optionState[0].idx}>O</StyledOXPanel>
+                <StyledOXPanel onClick={onCheckX} isChecked={optionState[1].isChecked}
+                     key={optionState[1].idx}>X</StyledOXPanel>
             </StyledPanelLayout>
         </QuestionItemLayout>
     )

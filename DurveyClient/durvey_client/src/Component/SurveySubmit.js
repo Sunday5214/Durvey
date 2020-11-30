@@ -40,7 +40,7 @@ const StyledSubmitBtn = styled.button`
 const PostSurvey = async (surveyState) =>{
     return await getRequest('POST', '/survey/write', 
     {
-        title: surveyState.surveyTitle,
+        title: surveyState.title,
         creatorIdx: 1,
         createDatetime: moment().format('YYYY-MM-DDTHH:mm:ss'),
         startDatetime: surveyState.startDatetime,
@@ -51,7 +51,7 @@ const PostSurvey = async (surveyState) =>{
 const PostQuestions = async(registedSurveyIdx, surveyState)=>{
     await getRequest('POST', '/survey/question/write',
     {
-        Questions: surveyState.questions.filter(question => question.id !== -1),
+        Questions: surveyState.questions.filter(question => question.idx !== -1),
         RegistedSurveyIdx:registedSurveyIdx
     });
 }

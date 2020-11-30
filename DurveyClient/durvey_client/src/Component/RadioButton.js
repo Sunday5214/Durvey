@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const RadioCircle = styled.div`
     border-radius: 50%;
-    background-color: transparent;
+    background-color: ${props => props.isChecked===true ? '#0088FF' : 'white'};
     border: 1px solid #707070;
     opacity: 1;
     margin-right: 10px;
@@ -30,10 +30,10 @@ const RadioButtonLayout = styled.div`
     margin-left: 15px;
 `;
 
-const RadioButton = ({ content }) => {
+const RadioButton = ({optionIdx, content, onClick, isChecked}) => {
     return (
         <RadioButtonLayout>
-            <RadioCircle/>
+            <RadioCircle onClick={()=>onClick(optionIdx)} isChecked={isChecked}/>
             <RadioContent>{content}</RadioContent>
         </RadioButtonLayout>
     )

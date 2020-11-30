@@ -154,8 +154,8 @@ namespace DurveyServer
             {
                 foreach(QuestionEntity question in questions)
                 {
-                    string sql = $"insert into questions (questionContent, surveyIdx, questionType) values " +
-                    $"('{question.QuestionContent}', '{registedSurveyIdx}', '{(int)question.QuestionType}'); " +
+                    string sql = $"insert into questions (Content, surveyIdx, Type) values " +
+                    $"('{question.Content}', '{registedSurveyIdx}', '{(int)question.Type}'); " +
                     $"select LAST_INSERT_ID();";
 
                     using (var db = new MySqlHelper())
@@ -168,7 +168,7 @@ namespace DurveyServer
                             foreach (var option in question.Options)
                             {
                                 count++;
-                                choiceSql = $"insert into choices (content, questionIdx, number) values ('{option.OptionContent}', '{questionIdx}', '{count}')";
+                                choiceSql = $"insert into options (Content, questionIdx, number) values ('{option.Content}', '{questionIdx}', '{count}')";
                                 db.Execute(choiceSql, this);
                             }
                         }

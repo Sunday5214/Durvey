@@ -9,8 +9,8 @@ namespace DurveyServer.Entities
     public class QuestionEntity
     {
         public int Idx { get; set; }
-        public string QuestionContent { get; set; }
-        public QuestionType QuestionType { get; set; }
+        public string Content { get; set; }
+        public QuestionType Type { get; set; }
         public List<OptionEntity> Options { get; set; }
     }
 

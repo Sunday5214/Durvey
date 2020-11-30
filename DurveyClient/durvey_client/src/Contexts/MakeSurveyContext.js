@@ -2,20 +2,21 @@ import React, { useReducer, useRef, createContext, useContext } from 'react';
 import moment from 'moment';
 const initSurvey = 
 {
-    surveyTitle: '',
+    title: '',
     startDatetime: moment().format('YYYY-MM-DDTHH:mm'),
     endDatetime: moment().format('YYYY-MM-DDTHH:mm'),
     questions: 
     [
         {
-            id: -1,
-            questionType: -1,//0 객관식, 1 OX, 2 주관식
-            questionContent:'',
+            idx: -1,
+            type: -1,//0 객관식, 1 OX, 2 주관식
+            content:'',
             options:
             [
                 {
-                    optionId: 0,
-                    optionContent: ''
+                    idx: 0,
+                    content: '',
+                    isChecked: false
                 }
             ]
         }
@@ -24,15 +25,16 @@ const initSurvey =
 
 
 const makeSurveyReducer = (state, action) => {
+    console.log(state);
     switch(action.type){
         case 'CREATE_TEXT_QUESTION':
             return {
                 ...state,
                 questions: state.questions.concat(
                     {
-                        id: action.id,
-                        questionType: 2,
-                        questionContent: action.content,
+                        idx: action.idx,
+                        type: 2,
+                        content: action.content,
                         options: undefined
                     }
                 )
@@ -42,18 +44,20 @@ const makeSurveyReducer = (state, action) => {
                 ...state,
                 questions: state.questions.concat(
                     {
-                        id: action.id,
-                        questionType: 1,
-                        questionContent: action.content,
+                        idx: action.idx,
+                        type: 1,
+                        content: action.content,
                         options: 
                         [
                             {
-                                optionId: 0,
-                                optionContent: 'O'
+                                idx: 0,
+                                content: 'O',
+                                isChecked: false
                             },
                             {
-                                optionId: 1,
-                                optionContent: 'X'
+                                idx: 1,
+                                content: 'X',
+                                isChecked: false
                             }
                         ]
                     }
@@ -64,9 +68,9 @@ const makeSurveyReducer = (state, action) => {
                 ...state,
                 questions: state.questions.concat(
                     {
-                        id: action.id,
-                        questionType: 0,
-                        questionContent: action.content,
+                        idx: action.idx,
+                        type: 0,
+                        content: action.content,
                         options: action.options
                     }
                 )
@@ -74,12 +78,12 @@ const makeSurveyReducer = (state, action) => {
         case 'DELETE_QUESTION':
             return{
                 ...state,
-                questions: state.questions.filter(question => question.id !== action.id)
+                questions: state.questions.filter(question => question.idx !== action.idx)
             }
         case 'CHANGE_TITLE':
             return{
                 ...state,
-                surveyTitle: action.surveyTitle
+                title: action.title
             }
         case 'CHANGE_START_DATETIME':
             return{

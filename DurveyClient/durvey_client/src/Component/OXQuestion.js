@@ -11,9 +11,9 @@ const OXQuestion = () => {
     const oxState = useOXQuestionState();
     const questionNextId = useMakeSurveyNextId();
     const questionDispatch = useMakeSurveyDispatch();
-    const onFocusLost = e => oxDispatch({type:'LOST_FOCUS', oxContent: e.target.value});
+    const onFocusLost = e => oxDispatch({type:'LOST_FOCUS', content: e.target.value});
     const onAddQuestion = () => {
-        questionDispatch({type: 'CREATE_OX_QUESTION', id: questionNextId.current, 
+        questionDispatch({type: 'CREATE_OX_QUESTION', idx: questionNextId.current, 
         content: oxState.content});
         questionNextId.current+=1;
     }

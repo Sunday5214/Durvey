@@ -26,15 +26,15 @@ const AnswerSurvey = ({surveyIdx}) => {
         {surveyState.map(
             (question)=>
             {
-                switch(question.questionType){
+                switch(question.type){
                     case -1:
-                        return <div key={question.id}></div>;
+                        return <div key={question.idx}></div>;
                     case 0:
-                        return <SelectQuestionItem isDeleteMode={false} content={question.questionContent} options={question.options} questionId={question.id} key={question.id}/>
+                        return <SelectQuestionItem isDeleteMode={false} content={question.content} options={question.options} questionIdx={question.idx} key={question.idx}/>
                     case 1:
-                        return <OXQuestionItem isDeleteMode={false} content={question.questionContent} questionId={question.id} key={question.id}/>
+                        return <OXQuestionItem isDeleteMode={false} options={question.options} content={question.content} questionIdx={question.idx} key={question.idx}/>
                     case 2:
-                        return <TextQuestionItem isDeleteMode={false} content={question.questionContent} questionId={question.id} key={question.id}/>
+                        return <TextQuestionItem isDeleteMode={false} content={question.content} questionIdx={question.idx} key={question.idx}/>
                     default:
                         return Error("Undefined QuestionType");
                 }

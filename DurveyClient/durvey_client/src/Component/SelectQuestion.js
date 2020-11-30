@@ -43,13 +43,13 @@ const OptionLayout = styled.div`
     margin-bottom: 5px;
 `;
 
-const OptionInput = ({optionValue, optionId}) => {
+const OptionInput = ({optionContent, optionIdx}) => {
     const selectDispatch = useSelectQuestionDispatch();
-    const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', optionId: optionId })
-    const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', optionId: optionId, optionContent: e.target.value })
+    const onDeleteOption = () => selectDispatch({ type: 'DELETE_OPTIONS', idx: optionIdx })
+    const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', idx: optionIdx, content: e.target.value })
     return (
         <OptionLayout>
-            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요">{optionValue}</TextareaAutosize>
+            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요">{optionContent}</TextareaAutosize>
             <OptionInputDeleteBtn onClick={onDeleteOption}>
                 <MdRemoveCircleOutline />
             </OptionInputDeleteBtn>
@@ -64,12 +64,12 @@ const SelectQuestion = () => {
     const questionNextId = useMakeSurveyNextId();
     const questionDispatch = useMakeSurveyDispatch();
     const onAddOption = () => {
-        selectDispatch({ type: 'CREATE_OPTIONS', optionContent: '', optionId: optionNextId.current });
+        selectDispatch({ type: 'CREATE_OPTIONS', content: '', idx: optionNextId.current });
         optionNextId.current += 1;
     }
     const onChangeContent = e => selectDispatch({ type: 'CHANGE_CONTENT', content: e.target.value });
     const onAddQuestion = () => {
-        questionDispatch({type: 'CREATE_SELECT_QUESTION', id: questionNextId.current, 
+        questionDispatch({type: 'CREATE_SELECT_QUESTION', idx: questionNextId.current, 
         content: selectState.content, options: selectState.options});
         questionNextId.current+=1;
     }
@@ -80,7 +80,7 @@ const SelectQuestion = () => {
             {selectState.options.map(
                 (option) =>
                 {
-                   return <OptionInput optionValue={option.optionContent} optionId={option.optionId} key={option.optionId} />
+                   return <OptionInput optionContent={option.content} optionIdx={option.idx} key={option.idx} />
                 }
             )}
             <StyledOptionAddBtn onClick={onAddOption}>

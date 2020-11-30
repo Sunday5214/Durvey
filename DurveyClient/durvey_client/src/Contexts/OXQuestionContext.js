@@ -9,7 +9,7 @@ const oxQuestionReducer = (state, action) => {
         case 'LOST_FOCUS':
             return {
                 ...state,
-                content: action.oxContent
+                content: action.content
             };
         default:
             throw new Error('Unhandled action type');

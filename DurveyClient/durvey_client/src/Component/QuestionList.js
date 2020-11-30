@@ -22,15 +22,15 @@ const QuestionList = () => {
             {questionsState.questions.map(
                 (question)=>
                 {
-                    switch(question.questionType){
+                    switch(question.type){
                         case -1:
-                            return <div key={question.id}></div>;
+                            return <div key={question.idx}></div>;
                         case 0:
-                            return <SelectQuestionItem content={question.questionContent} options={question.options} questionId={question.id} key={question.id}/>
+                            return <SelectQuestionItem content={question.content} options={question.options} questionIdx={question.idx} key={question.idx}/>
                         case 1:
-                            return <OXQuestionItem content={question.questionContent} questionId={question.id} key={question.id}/>
+                            return <OXQuestionItem content={question.content} options={question.options} questionIdx={question.idx} key={question.idx}/>
                         case 2:
-                            return <TextQuestionItem content={question.questionContent} questionId={question.id} key={question.id}/>
+                            return <TextQuestionItem content={question.content} questionIdx={question.idx} key={question.idx}/>
                         default:
                             return Error("Undefined QuestionType");
                     }
