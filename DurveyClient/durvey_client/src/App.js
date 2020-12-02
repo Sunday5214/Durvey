@@ -7,32 +7,21 @@ import { MakeSurveyProvider } from './Contexts/MakeSurveyContext.js';
 
 const App = () => {
   return (
-    
     <PageProvider>
       <MakeSurveyProvider>
 
-        <html>
-          <head>
+        <div className="container">
+          <div className="topBox">
+            <Navigation />
+          </div>
+          <div className="middleBox">
+            <NavigatePage />
 
-          </head>
-          <body>
-            
-            <div className="container">
-              <div className="topBox">
-                <Navigation />
-              </div>
-              <div className="middleBox">
-                <NavigatePage />
+          </div>
+          <div className="bottomBox">
 
-              </div>
-              <div className="bottomBox">
-
-              </div>
-            </div>
-
-          </body>
-        </html>
-
+          </div>
+        </div>
 
 
       </MakeSurveyProvider>

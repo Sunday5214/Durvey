@@ -1,10 +1,10 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
-import { useOXQuestionSet, useOXQuestionState } from '../Contexts/OXQuestionContext';
-import BackgroundBlock from './BackgroundBlock';
+import { useOXQuestionSet, useOXQuestionState } from '../../Contexts/OXQuestionContext';
+import BackgroundBlock from '../BackgroundBlock';
 import './OXQuestion.scss';
-import QuestionTitle from './QuestionTitle';
-import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
+import QuestionTitle from '../QuestionComponents/QuestionTitle';
+import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
 
 const OXQuestion = () => {
     const oxDispatch = useOXQuestionSet();
@@ -20,7 +20,7 @@ const OXQuestion = () => {
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
             <QuestionTitle clickEvent={onAddQuestion}>OX 질문</QuestionTitle>
-            <TextareaAutosize onBlur={onFocusLost} className="InputBox" placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
+            <TextareaAutosize defaultValue='' onBlur={onFocusLost} className="InputBox" placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
         </BackgroundBlock>
     )
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
-import { useTextQuestionSet, useTextQuestionState } from '../Contexts/TextQuestionContext.js';
-import BackgroundBlock from './BackgroundBlock.js';
-import QuestionTitle from './QuestionTitle';
+import { useTextQuestionSet, useTextQuestionState } from '../../Contexts/TextQuestionContext.js';
+import BackgroundBlock from '../BackgroundBlock.js';
+import QuestionTitle from '../QuestionComponents/QuestionTitle';
 import './TextQuestion.scss'
-import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
+import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
 
 
 const TextQuestion = () => {
@@ -21,7 +21,7 @@ const TextQuestion = () => {
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
             <QuestionTitle clickEvent={onAddQuestion}>주관식 질문</QuestionTitle>
-            <TextareaAutosize className='InputBox' onBlur={onFocusLost} placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
+            <TextareaAutosize className='InputBox' defaultValue='' onBlur={onFocusLost} placeholder="질문 내용을 작성해주세요"></TextareaAutosize>
         </BackgroundBlock>
     )
 }

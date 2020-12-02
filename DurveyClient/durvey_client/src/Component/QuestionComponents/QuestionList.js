@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useMakeSurveyState } from '../Contexts/MakeSurveyContext';
-import OXQuestionItem from './OXQuestionItem';
-import SelectQuestionItem from './SelectQuestionItem';
-import TextQuestionItem from './TextQuestionItem';
+import { useMakeSurveyState } from '../../Contexts/MakeSurveyContext';
+import OXQuestionItem from '../../Component/OXQuestionComponents/OXQuestionItem';
+import SelectQuestionItem from '../SelectQuestionComponents/SelectQuestionItem';
+import TextQuestionItem from '../TextQuestionComponents/TextQuestionItem';
 
 const StyledQuestionListLayout = styled.div`
     width: 85%;

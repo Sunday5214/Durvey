@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
-import '../Component/CustomCalendar/Calendar.css';
-import TimeInput from './TimeInput';
+import '../../Component/CustomCalendar/Calendar.css';
+import TimeInput from '../QuestionComponents/TimeInput';
 import moment from 'moment';
-import { useMakeSurveyDispatch, useMakeSurveyState} from '../Contexts/MakeSurveyContext';
+import { useMakeSurveyDispatch, useMakeSurveyState} from '../../Contexts/MakeSurveyContext';
 
 const SettingLayout = styled.div`
     margin: 15px;

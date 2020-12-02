@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
-import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
+import { useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
+import { QuestionItemLayout, QuestionContent } from '../QuestionComponents/QuestionItemLayout';
 
 let oxoOptions = [];
 

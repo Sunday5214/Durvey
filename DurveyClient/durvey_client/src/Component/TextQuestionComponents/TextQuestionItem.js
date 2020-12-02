@@ -1,7 +1,7 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
-import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
-import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
+import { useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
+import { QuestionItemLayout, QuestionContent } from '../QuestionComponents/QuestionItemLayout';
 import './TextQuestionItem.scss';
 
 const TextQuestionItem = ({content, questionIdx, isDeleteMode}) => {
@@ -12,7 +12,7 @@ const TextQuestionItem = ({content, questionIdx, isDeleteMode}) => {
             <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>
                 {content}
             </QuestionContent>
-            <TextareaAutosize className='InputBox' placeholder='응답을 입력해주세요'/>
+            <TextareaAutosize defaultValue='' className='InputBox' placeholder='응답을 입력해주세요'/>
         </QuestionItemLayout>
     )
 }

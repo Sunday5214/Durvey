@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import { useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
-import { QuestionItemLayout, QuestionContent } from './QuestionItemLayout';
-import RadioButton from './RadioButton';
+import { useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
+import { QuestionItemLayout, QuestionContent } from '../QuestionComponents/QuestionItemLayout';
+import RadioButton from '../QuestionComponents/RadioButton';
 
 let selectOption = [];
 

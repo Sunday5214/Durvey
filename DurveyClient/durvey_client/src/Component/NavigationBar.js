@@ -156,7 +156,6 @@ const NavigationItem = ({ link, children }) => {
 const Navigation = () => {
     const dispatch = usePageDispatch();
     const onChange = () => dispatch({ type: 'CHANGE', link: '/home'});
-    const onChangeLogin = () => dispatch({ type: 'CHANGE', link: '/Login'});
     return (
         <StyledNavigationBar>
             <StyledNavigationWrap>
@@ -166,14 +165,14 @@ const Navigation = () => {
                 </StyledNaviHeader>
                 <StyledNavigationListWrap>
                     <StyledNavigation>
-                        <NavigationItem link='/make/survey'>등록</NavigationItem>
                         <NavigationItem link='/answer/survey'>설문조사</NavigationItem>
-                        <NavigationItem link='/make/survey'>실시간 투표</NavigationItem>
                         <NavigationItem link='/make/survey'>설문결과</NavigationItem>
+                        <NavigationItem link='/make/survey'>등록</NavigationItem>
+                        <NavigationItem link='/make/survey'>실시간 투표</NavigationItem>
                     </StyledNavigation>
                 </StyledNavigationListWrap>
                 <StyledNavigationLogin>
-                    <StyledLoginButton onClick={onChangeLogin}>
+                    <StyledLoginButton>
                         <StyledLoginIcon>
                             <BiLogInCircle />
                         </StyledLoginIcon>

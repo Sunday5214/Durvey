@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundBlock from './BackgroundBlock';
+import BackgroundBlock from '../BackgroundBlock';
 import TextareaAutosize from "react-autosize-textarea"
 import './SelectQuestion.scss';
 import { MdAddCircleOutline, MdRemoveCircleOutline } from 'react-icons/md';
-import QuestionTitle from './QuestionTitle';
-import { useSelectQuestionDispatch, useSelectQuestionState, useSelectQuestionNextId } from '../Contexts/SelectQuestionContext';
-import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../Contexts/MakeSurveyContext';
+import QuestionTitle from '../QuestionComponents/QuestionTitle';
+import { useSelectQuestionDispatch, useSelectQuestionState, useSelectQuestionNextId } from '../../Contexts/SelectQuestionContext';
+import { useMakeSurveyNextId, useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
 
 const StyledOptionAddBtn = styled.div`
     width: 40%;
@@ -49,7 +49,7 @@ const OptionInput = ({optionContent, optionIdx}) => {
     const onChangeOptionContent = e => selectDispatch({ type: 'CHANGE_OPTIONS', idx: optionIdx, content: e.target.value })
     return (
         <OptionLayout>
-            <TextareaAutosize onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요">{optionContent}</TextareaAutosize>
+            <TextareaAutosize  onBlur={onChangeOptionContent} className='OptionInput'  placeholder="보기를 작성해주세요" defaultValue={optionContent} />
             <OptionInputDeleteBtn onClick={onDeleteOption}>
                 <MdRemoveCircleOutline />
             </OptionInputDeleteBtn>
@@ -76,7 +76,7 @@ const SelectQuestion = () => {
     return (
         <BackgroundBlock widthValue='90%' heightValue='auto'>
             <QuestionTitle clickEvent={onAddQuestion}>객관식 질문</QuestionTitle>
-            <TextareaAutosize onBlur={onChangeContent} className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
+            <TextareaAutosize defaultValue='' onBlur={onChangeContent} className='SelectContentInput' placeholder="질문 내용을 입력해주세요"></TextareaAutosize>
             {selectState.options.map(
                 (option) =>
                 {

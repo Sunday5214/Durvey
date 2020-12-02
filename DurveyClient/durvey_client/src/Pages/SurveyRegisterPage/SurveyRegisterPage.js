@@ -1,22 +1,22 @@
 import React from 'react';
 import './SurveyRegisterPage.scss';
-import BackgroundBlock from '../Component/BackgroundBlock.js';
-import OXQuestion from '../Component/OXQuestion.js';
-import SelectQuestion from '../Component/SelectQuestion';
-import TextQuestion from '../Component/TextQuestion';
-import SurveyTitle from '../Component/SurveyTitle';
-import QuestionList from '../Component/QuestionList';
-import SurveySubmit from '../Component/SurveySubmit';
+import BackgroundBlock from '../../Component/BackgroundBlock.js';
+import OXQuestion from '../../Component/OXQuestionComponents/OXQuestion';
+import SelectQuestion from '../../Component/SelectQuestionComponents/SelectQuestion';
+import TextQuestion from '../../Component/TextQuestionComponents/TextQuestion';
+import SurveyTitle from '../../Component/SurveyComponents/SurveyTitle';
+import QuestionList from '../../Component/QuestionComponents/QuestionList';
+import SurveySubmit from '../../Component/SurveyComponents/SurveySubmit';
 
-import '../Component/CustomCalendar/Calendar.css';
-import { SelectQuestionProvider } from '../Contexts/SelectQuestionContext';
-import { TextQuestionProvider } from '../Contexts/TextQuestionContext';
-import { OXQuestionProvider } from '../Contexts/OXQuestionContext';
-import SurveySetting from '../Component/SurveySetting';
-import {getRequest} from '../Utils/RestManager';
+import '../../Component/CustomCalendar/Calendar.css';
+import { SelectQuestionProvider } from '../../Contexts/SelectQuestionContext';
+import { TextQuestionProvider } from '../../Contexts/TextQuestionContext';
+import { OXQuestionProvider } from '../../Contexts/OXQuestionContext';
+import SurveySetting from '../../Component/SurveyComponents/SurveySetting';
+import {getRequest} from '../../Utils/RestManager';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { useMakeSurveyState } from '../Contexts/MakeSurveyContext';
+import { useMakeSurveyState } from '../../Contexts/MakeSurveyContext';
 
 const PostSurvey = async (surveyState) =>{
     return await getRequest('POST', '/survey/write', 

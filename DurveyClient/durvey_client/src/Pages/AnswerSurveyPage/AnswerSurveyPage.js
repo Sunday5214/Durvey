@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './AnswerSurveyPage.scss';
-import { getRequest } from '../Utils/RestManager';
-import SurveyItem from '../Component/SurveyItem';
-import Modal from '../Component/SurveyModal';
-import AnswerSurvey from '../Component/AnswerSurvey';
+import { getRequest } from '../../Utils/RestManager';
+import SurveyItem from '../../Component/SurveyComponents/SurveyItem';
+import Modal from '../../Component/SurveyComponents/Modal/SurveyModal';
+import AnswerSurvey from '../../Component/SurveyComponents/AnswerSurvey';
 
 const AnswerSurveyPage = () => {
     const [surveyListState, setSurveyList] = useState([]);

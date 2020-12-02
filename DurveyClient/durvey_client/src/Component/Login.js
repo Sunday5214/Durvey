@@ -49,7 +49,7 @@ const Login = () =>{
     return(
         <StyledLoginLayout>
             <StyledWelcome>환영합니다!</StyledWelcome>
-            <StyledEmailBox placeholder='이메일을 입력해주세요!'></StyledEmailBox>
+            <StyledEmailBox defaultValue='' placeholder='이메일을 입력해주세요!'></StyledEmailBox>
             <SurveySubmit widthValue='30%' clickEvent={onComplete}>로그인!</SurveySubmit>
         </StyledLoginLayout>
         

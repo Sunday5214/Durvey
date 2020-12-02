@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getRequest } from '../Utils/RestManager';
-import SelectQuestionItem from '../Component/SelectQuestionItem';
-import OXQuestionItem from '../Component/OXQuestionItem';
-import TextQuestionItem from '../Component/TextQuestionItem';
+import { getRequest } from '../../Utils/RestManager';
+import SelectQuestionItem from '../../Component/SelectQuestionComponents/SelectQuestionItem';
+import OXQuestionItem from '../../Component/OXQuestionComponents/OXQuestionItem';
+import TextQuestionItem from '../../Component/TextQuestionComponents/TextQuestionItem';
 import SurveySubmit from './SurveySubmit';
 
 const ModalSurveyLayout = styled.div`
