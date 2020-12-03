@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Portal from './Portal';
-import {HiX} from 'react-icons/hi';
+import { HiX } from 'react-icons/hi';
 
 function Modal({
   className,
@@ -35,7 +35,6 @@ function Modal({
 
   return (
     <Portal elementId="modal-root">
-      <ModalOverlay visible={visible} />
       <ModalWrapper
         className={className}
         onClick={maskClosable ? onMaskClick : null}
@@ -47,6 +46,7 @@ function Modal({
           {children}
         </ModalInner>
       </ModalWrapper>
+
     </Portal>
   )
 }
@@ -72,48 +72,43 @@ const CloseIcon = styled.div`
   }
 `;
 
+
 const ModalWrapper = styled.div`
   box-sizing: border-box;
-  display: ${(props) => (props.visible ? 'flex' : 'none')};
-  align-content: center;
+  display: ${(props) => (props.visible ? 'block' : 'none')};
+  z-index: 1000;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
-  overflow: auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
   outline: 0;
+  justify-content: center;
+  align-items: center;
 `
 
-const ModalOverlay = styled.div`
-  box-sizing: border-box;
-  display: ${(props) => (props.visible ? 'flex' : 'none')};
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-`
 
 const ModalInner = styled.div`
   display: flex;
+  position: fixed;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-sizing: border-box;
-  position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: white;
   border-radius: 10px;
-  width: 1000px;
-  max-width: 1000px;
-  height: 1400px;
-  top: 10%;
-  margin: 0 auto;
+  width: 50%;
+  height: 90%;
+  top: 3%;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 20px 20px;
+  overflow: auto;
+  margin: 0 auto;
 `
 
 export default Modal

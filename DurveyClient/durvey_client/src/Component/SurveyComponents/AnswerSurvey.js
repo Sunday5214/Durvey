@@ -7,8 +7,7 @@ import TextQuestionItem from '../../Component/TextQuestionComponents/TextQuestio
 import SurveySubmit from './SurveySubmit';
 
 const ModalSurveyLayout = styled.div`
-    width: 90%;
-    height: auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -22,11 +21,12 @@ const StyledTitle = styled.div`
     border-bottom: solid;
     border-bottom-color: #0088FF;
     border-bottom-width: 1px;
-    width: 110%;
+    width: 100%;
     height: 50px;
     margin-top: 20px;
     font-size: 40px;
     font-family: 'Segoe UI';
+    padding: 2px;
     text-align: center;
     align-self: center;
 `
@@ -64,7 +64,7 @@ const AnswerSurvey = ({ surveyIdx, surveyTitle }) => {
                     }
                 }
             )}
-            <SurveySubmit widthValue='110%' clickEvent={onSubmit}>제출</SurveySubmit>
+            <SurveySubmit widthValue='100%' clickEvent={onSubmit}>제출</SurveySubmit>
         </ModalSurveyLayout>
     )
 }

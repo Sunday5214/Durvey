@@ -9,21 +9,17 @@ const App = () => {
   return (
     <PageProvider>
       <MakeSurveyProvider>
-
         <div className="container">
           <div className="topBox">
             <Navigation />
           </div>
           <div className="middleBox">
             <NavigatePage />
-
           </div>
           <div className="bottomBox">
 
           </div>
         </div>
-
-
       </MakeSurveyProvider>
     </PageProvider>
 
