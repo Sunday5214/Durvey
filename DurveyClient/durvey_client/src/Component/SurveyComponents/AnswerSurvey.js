@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getRequest } from '../../Utils/RestManager';
-import SelectQuestionItem from '../../Component/SelectQuestionComponents/SelectQuestionItem';
 import OXQuestionItem from '../../Component/OXQuestionComponents/OXQuestionItem';
+import SelectQuestionItem from '../../Component/SelectQuestionComponents/SelectQuestionItem';
 import TextQuestionItem from '../../Component/TextQuestionComponents/TextQuestionItem';
 import SurveySubmit from './SurveySubmit';
 
@@ -31,11 +31,63 @@ const StyledTitle = styled.div`
     align-self: center;
 `
 
-
 const AnswerSurvey = ({ surveyIdx, surveyTitle }) => {
     const [surveyState, setSurvey] = useState([]);
-    const onSubmit = () => {
-        alert('제출되었습니다!');
+    const answerList = [];
+    const onSubmit = async () => {
+        let submitObj = [];
+        for(let idx in answerList){
+            if(Array.isArray(answerList[idx].answer)){
+                if(answerList[idx].answer.length > 1){
+                    for(let i=0; i<answerList[idx].answer.length; i++){
+                        submitObj.push(
+                            {
+                                QuestionIdx: answerList[idx].questionIdx,
+                                AnswerUserIdx: 1,
+                                AnswerText: null,
+                                AnswerNumber: answerList[idx].answer[i].number,
+                                QuestionType: answerList[idx].questionType
+                            }
+                        )
+                    }
+                }
+                else{
+                    submitObj.push(
+                        {
+                            QuestionIdx: answerList[idx].questionIdx,
+                            AnswerUserIdx: 1,
+                            AnswerText: null,
+                            AnswerNumber: answerList[idx].answer[0].number,
+                            QuestionType: answerList[idx].questionType
+                        }
+                    )
+                }
+            }
+            else{
+                submitObj.push(
+                    {
+                        QuestionIdx: answerList[idx].questionIdx,
+                        AnswerUserIdx: 1,
+                        AnswerText: answerList[idx].answer,
+                        AnswerNumber: null,
+                        QuestionType: answerList[idx].questionType
+                    }
+                )
+            }
+        }
+        const surveyAnswerData = {SurveyIdx:surveyIdx, SurveyResults:submitObj};
+        console.log(surveyAnswerData);
+        const result = await getRequest('POST', '/survey/submit', surveyAnswerData);
+        console.log(result);
+    }
+    const onAddAnswer = (answerData) => {
+        const idx = answerList.findIndex(answer=>answer.questionIdx===answerData.questionIdx);
+        if(idx === -1){
+            answerList.push(answerData);
+        }
+        else{
+            answerList[idx]=answerData;
+        }
     }
     useEffect(() => {
         const getSurveyData = async () => {
@@ -54,11 +106,11 @@ const AnswerSurvey = ({ surveyIdx, surveyTitle }) => {
                         case -1:
                             return <div key={question.idx}></div>;
                         case 0:
-                            return <SelectQuestionItem isDeleteMode={false} content={question.content} options={question.options} questionIdx={question.idx} key={question.idx} />
+                            return <SelectQuestionItem addAnswer={onAddAnswer} isDeleteMode={false} content={question.content} options={question.options} questionIdx={question.idx} key={question.idx} />
                         case 1:
-                            return <OXQuestionItem isDeleteMode={false} options={question.options} content={question.content} questionIdx={question.idx} key={question.idx} />
+                            return <OXQuestionItem addAnswer={onAddAnswer} isDeleteMode={false} options={question.options} content={question.content} questionIdx={question.idx} key={question.idx} />
                         case 2:
-                            return <TextQuestionItem isDeleteMode={false} content={question.content} questionIdx={question.idx} key={question.idx} />
+                            return <TextQuestionItem addAnswer={onAddAnswer} isDeleteMode={false} content={question.content} questionIdx={question.idx} key={question.idx} />
                         default:
                             return Error("Undefined QuestionType");
                     }

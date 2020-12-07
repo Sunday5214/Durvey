@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
 import { QuestionItemLayout, QuestionContent } from '../QuestionComponents/QuestionItemLayout';
 
-let oxoOptions = [];
-
 const StyledOXPanel = styled.div`
     width: 50px;
     height: 50px;
@@ -34,26 +32,25 @@ const StyledPanelLayout = styled.div`
     width: 100%;
 `;
 
-export const GetQuestionResult = () => {
-    return oxoOptions.filter(option=>option.isChecked!==false);
-}
-
-const OXQuestionItem = ({ content, options, questionIdx, isDeleteMode }) => {
+const OXQuestionItem = ({addAnswer, content, options, questionIdx, isDeleteMode }) => {
     const [optionState, setOption] = useState(options);
     const onCheckO = ()=>{
-        oxoOptions = [...optionState];
+        const oxoOptions = [...optionState];
         oxoOptions[0].isChecked = true
         if(oxoOptions[1].isChecked === true)oxoOptions[1].isChecked = false;
+        addAnswer({questionIdx:questionIdx, questionType:1, answer:oxoOptions.filter(option=>option.isChecked === true)});
         setOption(oxoOptions);
     }
     const onCheckX = ()=>{
-        oxoOptions = [...optionState];
+        const oxoOptions = [...optionState];
         oxoOptions[1].isChecked = true
         if(oxoOptions[0].isChecked === true)oxoOptions[0].isChecked = false;
+        addAnswer({questionIdx:questionIdx, questionType:1, answer:oxoOptions.filter(option=>option.isChecked === true)});
         setOption(oxoOptions);
     }
     const questionsDisatch = useMakeSurveyDispatch();
     const onDeletThis = () => questionsDisatch({type:'DELETE_QUESTION', idx:questionIdx});
+
     return (
         <QuestionItemLayout>
             <QuestionContent clickEvent={onDeletThis} isDeleteMode={isDeleteMode}>

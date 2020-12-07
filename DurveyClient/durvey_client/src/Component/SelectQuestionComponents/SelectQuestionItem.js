@@ -3,20 +3,15 @@ import { useMakeSurveyDispatch } from '../../Contexts/MakeSurveyContext';
 import { QuestionItemLayout, QuestionContent } from '../QuestionComponents/QuestionItemLayout';
 import RadioButton from '../QuestionComponents/RadioButton';
 
-let selectOption = [];
-
-export const GetQuestionResult = () => {
-    return selectOption.filter(option=>option.isChecked!==false);
-}
-
-const SelectQuestionItem = ({ content, options, questionId, isDeleteMode }) => {
+const SelectQuestionItem = ({addAnswer, content, options, questionIdx, isDeleteMode}) => {
     const [optionState, setOption] = useState(options);
     const onCheck = (optionIdx) =>{
-        selectOption = optionState.map(option=>option.idx===optionIdx ? { ...option, isChecked: !option.isChecked } : option );
+        const selectOption = optionState.map(option=>option.idx===optionIdx ? { ...option, isChecked: !option.isChecked } : option );
+        addAnswer({questionIdx:questionIdx, questionType:0, answer:selectOption.filter(option=>option.isChecked!==false)})
         setOption(selectOption);
     } 
     const questionsDisatch = useMakeSurveyDispatch();
-    const onDeletThis = () => questionsDisatch({ type: 'DELETE_QUESTION', idx: questionId });
+    const onDeletThis = () => questionsDisatch({ type: 'DELETE_QUESTION', idx: questionIdx });
     return (
 
         <QuestionItemLayout>

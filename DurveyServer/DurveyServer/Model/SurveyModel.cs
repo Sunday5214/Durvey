@@ -96,7 +96,7 @@ namespace DurveyServer
         }
 
 
-        internal (int?, HttpStatusCode) SubmitSurvey(List<SurveyResultEntity> surveyResults)
+        internal (int?, HttpStatusCode) SubmitSurvey(SurveyResultData surveyResult)
         {
             try
             {
@@ -105,15 +105,15 @@ namespace DurveyServer
 
                 using(var db = new MySqlHelper())
                 {                    
-                    foreach (var surveyResult in surveyResults)
+                    foreach (var result in surveyResult.SurveyResults)
                     {
-                        sql = $"insert into user (surveyIdx, questionIdx, answerUserIdx, answerText, answerNumber, questionType) " +
-                    $"value ('{surveyResult.SurveyIdx}', '{surveyResult.questionIdx}', " +
-                    $"'{surveyResult.AnswerUserIdx}', '{surveyResult.AnswerText}', '{surveyResult.AnswerNumber}'" +
-                    $"'{surveyResult.QuestionType}')";
+                        sql = $"insert into survey_result (surveyIdx, questionIdx, answerUserIdx, answerText, answerNumber, questionType) " +
+                    $"value ('{surveyResult.SurveyIdx}', '{result.QuestionIdx}', " +
+                    $"'{result.AnswerUserIdx}', '{result.AnswerText}', '{result.AnswerNumber}'," +
+                    $"'{(int)result.QuestionType}')";
                        count += db.Execute(sql, this);
                     }
-                    if(count == surveyResults.Count)
+                    if(count == surveyResult.SurveyResults.Count)
                     {
                         return (count, HttpStatusCode.OK);
                     }

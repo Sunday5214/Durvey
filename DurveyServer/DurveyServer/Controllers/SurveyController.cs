@@ -99,7 +99,7 @@ namespace DurveyServer.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public ResponseEntity<Default> Submit([FromBody] List<SurveyResultEntity> surveyResults)
+        public ResponseEntity<Default> Submit([FromBody] SurveyResultData surveyResults)
         {
             (int? Data, HttpStatusCode Status) submitResult = surveyModel.SubmitSurvey(surveyResults);
             if(submitResult.Data == null)
