@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Dapper;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DurveyServer
 {
@@ -15,7 +18,7 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"select * from surveys";
+                string sql = "select * from surveys";
 
                 List<SurveyEntity> surveys;
                 using (var db = new MySqlHelper())
@@ -44,12 +47,14 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"select * from options where questionIdx ='{questionIdx}'";
+                string sql = "select * from options where questionIdx = @questionIdx";
 
                 List<OptionEntity> choices;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@questionIdx", questionIdx);
                 using(var db = new MySqlHelper())
                 {
-                    choices = db.Query<OptionEntity>(sql, this);
+                    choices = db.Query<OptionEntity>(sql, param);
                 }
 
                 if(choices == null)
@@ -69,12 +74,14 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"select * from questions where surveyIdx = '{surveyIdx}'";
-
+                string sql = "select * from questions where surveyIdx = @surveyIdx";
+                
                 List<QuestionEntity> questions;
-                using(var db = new MySqlHelper())
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@surveyIdx", surveyIdx);
+                using (var db = new MySqlHelper())
                 {
-                    questions = db.Query<QuestionEntity>(sql, this);
+                    questions = db.Query<QuestionEntity>(sql, param);
                 }
 
                 foreach(QuestionEntity question in questions)
@@ -102,16 +109,22 @@ namespace DurveyServer
             {
                 string sql = "";
                 int count = 0;
-
-                using(var db = new MySqlHelper())
+                DynamicParameters param = new DynamicParameters();
+                
+                using (var db = new MySqlHelper())
                 {                    
                     foreach (var result in surveyResult.SurveyResults)
                     {
-                        sql = $"insert into survey_result (surveyIdx, questionIdx, answerUserIdx, answerText, answerNumber, questionType) " +
-                    $"value ('{surveyResult.SurveyIdx}', '{result.QuestionIdx}', " +
-                    $"'{result.AnswerUserIdx}', '{result.AnswerText}', '{result.AnswerNumber}'," +
-                    $"'{(int)result.QuestionType}')";
-                       count += db.Execute(sql, this);
+                        sql = "insert into survey_result (surveyIdx, questionIdx, answerUserIdx, answerText, answerNumber, questionType) " +
+                            "value (@surveyIdx, @questionIdx, @answerUserIdx, @answerText, @answerNumber, @questionType)";
+                        param.Add("@surveyIdx", surveyResult.SurveyIdx);
+                        param.Add("@questionIdx", result.QuestionIdx);
+                        param.Add("@answerUserIdx", result.AnswerUserIdx);
+                        param.Add("@answerText", result.AnswerText);
+                        param.Add("@answerNumber", result.AnswerNumber);
+                        param.Add("@questionType", (int)result.QuestionType);
+                        count += db.Execute(sql, param);
+                        param = new DynamicParameters();
                     }
                     if(count == surveyResult.SurveyResults.Count)
                     {
@@ -133,13 +146,17 @@ namespace DurveyServer
         {
             try
             {
-                string sql = $"insert into surveys (title, creatorIdx, createDatetime, startDatetime, endDatetime)" +
-                    $"values ('{survey.Title}', '{survey.CreatorIdx}', '{MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime)}', " +
-                    $"'{MysqlFormatHelper.ConvertDatetime(survey.StartDatetime)}', " +
-                    $"'{MysqlFormatHelper.ConvertDatetime(survey.EndDatetime)}'); select LAST_INSERT_ID();";
-                using(var db = new MySqlHelper())
+                DynamicParameters param = new DynamicParameters();
+                string sql = "insert into surveys (title, creatorIdx, createDatetime, startDatetime, endDatetime)" +
+                    $"values (@title, @creatorIdx, @createDatetime, @startDatetime, @endDatetime); select LAST_INSERT_ID();";
+                param.Add("@title", survey.Title);
+                param.Add("@creatorIdx", survey.CreatorIdx);
+                param.Add("@createDatetime", MysqlFormatHelper.ConvertDatetime(survey.CreateDatetime));
+                param.Add("@startDatetime", MysqlFormatHelper.ConvertDatetime(survey.StartDatetime));
+                param.Add("@endDatetime", MysqlFormatHelper.ConvertDatetime(survey.EndDatetime));
+                using (var db = new MySqlHelper())
                 {
-                    return (db.QuerySingle<int>(sql, this), HttpStatusCode.OK);
+                    return (db.QuerySingle<int>(sql, param), HttpStatusCode.OK);
                 }
             }
             catch
@@ -152,15 +169,19 @@ namespace DurveyServer
         {
             try
             {
-                foreach(QuestionEntity question in questions)
+                DynamicParameters questionParam = new DynamicParameters();
+                DynamicParameters optionParam = new DynamicParameters();
+                foreach (QuestionEntity question in questions)
                 {
-                    string sql = $"insert into questions (Content, surveyIdx, Type) values " +
-                    $"('{question.Content}', '{registedSurveyIdx}', '{(int)question.Type}'); " +
+                    string sql = "insert into questions (content, surveyIdx, type) values (@content, @surveyIdx, @type); " +
                     $"select LAST_INSERT_ID();";
-
+                    questionParam.Add("@content", question.Content);
+                    questionParam.Add("@surveyIdx", registedSurveyIdx);
+                    questionParam.Add("@type", (int)question.Type);
                     using (var db = new MySqlHelper())
                     {
-                        int questionIdx = db.QuerySingle<int>(sql, this);
+                        int questionIdx = db.QuerySingle<int>(sql, questionParam);
+                        questionParam = new DynamicParameters();
                         if (question.Options != null)
                         {
                             string choiceSql = "";
@@ -168,14 +189,69 @@ namespace DurveyServer
                             foreach (var option in question.Options)
                             {
                                 count++;
-                                choiceSql = $"insert into options (Content, questionIdx, number) values ('{option.Content}', '{questionIdx}', '{count}')";
-                                db.Execute(choiceSql, this);
+                                choiceSql = "insert into options (content, questionIdx, number) values (@content, @questionIdx, @number)";
+                                optionParam.Add("@content", option.Content);
+                                optionParam.Add("@questionIdx", questionIdx);
+                                optionParam.Add("@number", count);
+                                db.Execute(choiceSql, optionParam);
+                                optionParam = new DynamicParameters();
                             }
                         }
                     }   
                 }
                 return (null, HttpStatusCode.OK);
 
+            }
+            catch
+            {
+                return (null, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        internal List<OrganizedResultData> OrganizeResultData(List<SurveyResultEntity> surveyResults)
+        {
+            List<OrganizedResultData> organizedResults = new List<OrganizedResultData>();
+            var questionIdxKinds = surveyResults.Distinct(new SurveyResultComparer()).ToList();
+            
+            foreach(var questionIdxKind in questionIdxKinds)
+            {
+                organizedResults.Add(new OrganizedResultData { QuestionIdx = questionIdxKind.QuestionIdx });
+            }
+
+            foreach(var surveyResult in surveyResults)
+            {
+                if(surveyResult.AnswerText != null)
+                {
+                    organizedResults[organizedResults.FindIndex(x => x.QuestionIdx == surveyResult.QuestionIdx)].AnswerTextList.Add(surveyResult.AnswerText);
+                }
+                else
+                {
+                    int idx = organizedResults.FindIndex(x => x.QuestionIdx == surveyResult.QuestionIdx);
+                    if(organizedResults[idx].AnswerDic.Count == 0|| !organizedResults[idx].AnswerDic.ContainsKey(surveyResult.AnswerNumber.Value))
+                    {
+                        organizedResults[idx].AnswerDic.Add(surveyResult.AnswerNumber.Value, 1);
+                    }
+                    else
+                    {
+                        organizedResults[idx].AnswerDic[surveyResult.AnswerNumber.Value]+=1;
+                    }
+                }
+            }
+            return organizedResults;
+        }
+
+        internal (List<OrganizedResultData>, HttpStatusCode) GetSurveyResult(int surveyIdx)
+        {
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                string sql = "select idx, questionIdx, answerUserIdx, answerText, answerNumber, questionType" +
+                    " from survey_result where surveyIdx = @surveyIdx";
+                param.Add("@surveyIdx", surveyIdx);
+                using (var db = new MySqlHelper())
+                {
+                    return (OrganizeResultData(db.Query<SurveyResultEntity>(sql, param)), HttpStatusCode.OK);
+                }
             }
             catch
             {

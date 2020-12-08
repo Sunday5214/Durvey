@@ -172,6 +172,33 @@ namespace DurveyServer.Controllers
             }
         }
 
+        [Route("[action]")]
+        [HttpGet]
+        public ResponseEntity<List<OrganizedResultData>> Result(int surveyIdx)
+        {
+            (List<OrganizedResultData> Data, HttpStatusCode Status) results = surveyModel.GetSurveyResult(surveyIdx);
+            
+            
+            
+            if(results.Data == null)
+            {
+                return new ResponseEntity<List<OrganizedResultData>>()
+                {
+                    Data = null,
+                    Message = "서버 오류",
+                    Status = results.Status
+                };
+            }
+            else
+            {
+                return new ResponseEntity<List<OrganizedResultData>>()
+                {
+                    Data = results.Data,
+                    Message = "성공적으로 조회되었습니다.",
+                    Status = results.Status
+                };
+            }
+        }
        
 
     }

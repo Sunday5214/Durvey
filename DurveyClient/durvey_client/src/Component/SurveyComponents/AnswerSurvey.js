@@ -76,9 +76,10 @@ const AnswerSurvey = ({ surveyIdx, surveyTitle }) => {
             }
         }
         const surveyAnswerData = {SurveyIdx:surveyIdx, SurveyResults:submitObj};
-        console.log(surveyAnswerData);
-        const result = await getRequest('POST', '/survey/submit', surveyAnswerData);
-        console.log(result);
+        await getRequest('POST', '/survey/submit', surveyAnswerData);
+        alert('제출완료');
+        const data = await getRequest('GET', ('/survey/result?surveyIdx='+surveyIdx));
+        console.log(data);
     }
     const onAddAnswer = (answerData) => {
         const idx = answerList.findIndex(answer=>answer.questionIdx===answerData.questionIdx);
