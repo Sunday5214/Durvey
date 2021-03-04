@@ -173,11 +173,12 @@ namespace DurveyServer
                 DynamicParameters optionParam = new DynamicParameters();
                 foreach (QuestionEntity question in questions)
                 {
-                    string sql = "insert into questions (content, surveyIdx, type) values (@content, @surveyIdx, @type); " +
+                    string sql = "insert into questions (content, surveyIdx, type, optionCount) values (@content, @surveyIdx, @type, @optionCount); " +
                     $"select LAST_INSERT_ID();";
                     questionParam.Add("@content", question.Content);
                     questionParam.Add("@surveyIdx", registedSurveyIdx);
                     questionParam.Add("@type", (int)question.Type);
+                    questionParam.Add("@optionCount", question.Options != null ? question.Options.Count : 0);
                     using (var db = new MySqlHelper())
                     {
                         int questionIdx = db.QuerySingle<int>(sql, questionParam);
@@ -208,14 +209,22 @@ namespace DurveyServer
             }
         }
 
-        internal List<OrganizedResultData> OrganizeResultData(List<SurveyResultEntity> surveyResults)
+        internal List<OrganizedResultData> OrganizeResultData(List<SurveyResultEntity> surveyResults, List<SurveyResultEntity> distinctedQuestions)
         {
             List<OrganizedResultData> organizedResults = new List<OrganizedResultData>();
-            var questionIdxKinds = surveyResults.Distinct(new SurveyResultComparer()).ToList();
-            
-            foreach(var questionIdxKind in questionIdxKinds)
+
+            for (int i = 0; i < distinctedQuestions.Count; i++)
             {
-                organizedResults.Add(new OrganizedResultData { QuestionIdx = questionIdxKind.QuestionIdx });
+                organizedResults.Add(new OrganizedResultData 
+                { 
+                    QuestionIdx = distinctedQuestions[i].QuestionIdx, 
+                    QuestionType= distinctedQuestions[i].QuestionType,
+                });
+                for(int j = 0; j< distinctedQuestions[i].OptionCount; j++)
+                {
+                    organizedResults[i].AnswerNumberList.Add(0);
+                }
+                
             }
 
             foreach(var surveyResult in surveyResults)
@@ -227,14 +236,7 @@ namespace DurveyServer
                 else
                 {
                     int idx = organizedResults.FindIndex(x => x.QuestionIdx == surveyResult.QuestionIdx);
-                    if(organizedResults[idx].AnswerDic.Count == 0|| !organizedResults[idx].AnswerDic.ContainsKey(surveyResult.AnswerNumber.Value))
-                    {
-                        organizedResults[idx].AnswerDic.Add(surveyResult.AnswerNumber.Value, 1);
-                    }
-                    else
-                    {
-                        organizedResults[idx].AnswerDic[surveyResult.AnswerNumber.Value]+=1;
-                    }
+                    organizedResults[idx].AnswerNumberList[surveyResult.AnswerNumber.Value-1]++;
                 }
             }
             return organizedResults;
@@ -247,10 +249,13 @@ namespace DurveyServer
                 DynamicParameters param = new DynamicParameters();
                 string sql = "select idx, questionIdx, answerUserIdx, answerText, answerNumber, questionType" +
                     " from survey_result where surveyIdx = @surveyIdx";
+
+                string optionCountSql = "select distinct optionCount, questionIdx, content, questionType from (select idx, optionCount, content from questions where surveyIdx=@surveyIdx) as qs " +
+                    "join (select questionIdx, questionType from survey_result where surveyIdx=@surveyIdx) as sr on qs.idx=sr.questionIdx";
                 param.Add("@surveyIdx", surveyIdx);
                 using (var db = new MySqlHelper())
                 {
-                    return (OrganizeResultData(db.Query<SurveyResultEntity>(sql, param)), HttpStatusCode.OK);
+                    return (OrganizeResultData(db.Query<SurveyResultEntity>(sql, param), db.Query<SurveyResultEntity>(optionCountSql, param)), HttpStatusCode.OK);
                 }
             }
             catch

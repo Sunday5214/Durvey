@@ -18,15 +18,18 @@ namespace DurveyServer.Entities
         public int? AnswerNumber { get; set; }
 #nullable disable
         public QuestionType QuestionType { get; set; }
+        public int OptionCount { get; set; }
     }
 
     public class OrganizedResultData
     {
         public int QuestionIdx { get; set; }
         public QuestionType QuestionType { get; set; }
+        public string Content { get; set; }
         public List<string> AnswerTextList { get; set; } = new List<string>();
-        public Dictionary<int, int> AnswerDic { get; set; } = new Dictionary<int, int>(); 
+        public List<int> AnswerNumberList { get; set; } = new List<int>();
     }
+
 
     public class SurveyResultData
     {
